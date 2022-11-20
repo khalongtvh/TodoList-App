@@ -1,0 +1,7 @@
+*.swp
+.DS_Store
+vendor/
+storage/
+bootstrap/
+.idea
+.phpunit.result.cache

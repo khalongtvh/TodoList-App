@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '36df0d9241309e0eba0e2c38e121e9852617d4f3',
+        'reference' => 'b2589f7b0dc2856cef16a265cc2f9fc4eec0f9dd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -415,7 +415,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '36df0d9241309e0eba0e2c38e121e9852617d4f3',
+            'reference' => 'b2589f7b0dc2856cef16a265cc2f9fc4eec0f9dd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -588,6 +588,15 @@
             'install_path' => __DIR__ . '/../nunomaduro/collision',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'offline-agency/laravel-mongo-auto-sync' => array(
+            'pretty_version' => '2.0',
+            'version' => '2.0.0.0',
+            'reference' => 'faab81e3d10d6ad232ee9d0bb6c67b8b5fdea58c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../offline-agency/laravel-mongo-auto-sync',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'opis/closure' => array(
             'pretty_version' => '3.6.3',

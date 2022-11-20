@@ -3191,6 +3191,84 @@
             "install-path": "../nunomaduro/collision"
         },
         {
+            "name": "offline-agency/laravel-mongo-auto-sync",
+            "version": "2.0",
+            "version_normalized": "2.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/offline-agency/laravel-mongo-auto-sync.git",
+                "reference": "faab81e3d10d6ad232ee9d0bb6c67b8b5fdea58c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/offline-agency/laravel-mongo-auto-sync/zipball/faab81e3d10d6ad232ee9d0bb6c67b8b5fdea58c",
+                "reference": "faab81e3d10d6ad232ee9d0bb6c67b8b5fdea58c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mongodb": "*",
+                "illuminate/container": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/database": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/events": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
+                "jenssegers/mongodb": "^3.6|^3.7|^3.8",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.0|^4.0|^5.0|^6.0",
+                "phpunit/phpcov": "^7.0|^8.0",
+                "phpunit/phpunit": "^5.0|^6.0|^7.0|^8.0|^9.0"
+            },
+            "time": "2022-05-21T13:33:19+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OfflineAgency\\MongoAutoSync\\MongoAutoSyncServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "src/syncUtils.php"
+                ],
+                "psr-4": {
+                    "OfflineAgency\\MongoAutoSync\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Offline Agency",
+                    "email": "info@offlineagency.it"
+                }
+            ],
+            "description": "This package provides a better support for MongoDB relationships in Laravel Projects.",
+            "keywords": [
+                "Relationships",
+                "database",
+                "eloquent",
+                "laravel",
+                "mongodb"
+            ],
+            "support": {
+                "issues": "https://github.com/offline-agency/laravel-mongo-auto-sync/issues",
+                "source": "https://github.com/offline-agency/laravel-mongo-auto-sync/tree/2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/offline-agency",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../offline-agency/laravel-mongo-auto-sync"
+        },
+        {
             "name": "opis/closure",
             "version": "3.6.3",
             "version_normalized": "3.6.3.0",

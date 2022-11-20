@@ -19,12 +19,12 @@ class ComposerStaticInit5054ad9b131acddf28d4b1d679f90b0f
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
@@ -36,6 +36,7 @@ class ComposerStaticInit5054ad9b131acddf28d4b1d679f90b0f
         'c7a3c339e7e14b60e06a2d7fcce9476b' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Events/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'adf7ae20ad7796efa78aa93b04f5b33a' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/syncUtils.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     );
 
@@ -103,6 +104,7 @@ class ComposerStaticInit5054ad9b131acddf28d4b1d679f90b0f
         'O' => 
         array (
             'Opis\\Closure\\' => 13,
+            'OfflineAgency\\MongoAutoSync\\' => 28,
         ),
         'N' => 
         array (
@@ -355,6 +357,10 @@ class ComposerStaticInit5054ad9b131acddf28d4b1d679f90b0f
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
         ),
+        'OfflineAgency\\MongoAutoSync\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src',
+        ),
         'NunoMaduro\\Collision\\' => 
         array (
             0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
@@ -542,6 +548,7 @@ class ComposerStaticInit5054ad9b131acddf28d4b1d679f90b0f
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\AuthorController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthorController.php',
         'App\\Http\\Controllers\\BookController' => __DIR__ . '/../..' . '/app/Http/Controllers/BookController.php',
+        'App\\Http\\Controllers\\CardController' => __DIR__ . '/../..' . '/app/Http/Controllers/CardController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\TaskController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskController.php',
@@ -3533,6 +3540,19 @@ class ComposerStaticInit5054ad9b131acddf28d4b1d679f90b0f
         'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
         'NunoMaduro\\Collision\\SolutionsRepositories\\NullSolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/SolutionsRepositories/NullSolutionsRepository.php',
         'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
+        'OfflineAgency\\MongoAutoSync\\Console\\DropCollection' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Console/DropCollection.php',
+        'OfflineAgency\\MongoAutoSync\\Console\\GenerateModelDocumentation' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Console/GenerateModelDocumentation.php',
+        'OfflineAgency\\MongoAutoSync\\Extensions\\MongoCollection' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Extensions/MongoCollection.php',
+        'OfflineAgency\\MongoAutoSync\\Http\\Models\\DefaultGeo' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Http/Models/DefaultGeo.php',
+        'OfflineAgency\\MongoAutoSync\\Http\\Models\\DefaultMini' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Http/Models/DefaultMini.php',
+        'OfflineAgency\\MongoAutoSync\\Http\\Models\\MDModel' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Http/Models/MDModel.php',
+        'OfflineAgency\\MongoAutoSync\\Http\\Models\\MSModel' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Http/Models/MSModel.php',
+        'OfflineAgency\\MongoAutoSync\\MongoAutoSyncServiceProvider' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/MongoAutoSyncServiceProvider.php',
+        'OfflineAgency\\MongoAutoSync\\Traits\\Helper' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Traits/Helper.php',
+        'OfflineAgency\\MongoAutoSync\\Traits\\MainMongoTrait' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Traits/MainMongoTrait.php',
+        'OfflineAgency\\MongoAutoSync\\Traits\\ModelAdditionalMethod' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Traits/ModelAdditionalMethod.php',
+        'OfflineAgency\\MongoAutoSync\\Traits\\PlainMongoTrait' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Traits/PlainMongoTrait.php',
+        'OfflineAgency\\MongoAutoSync\\Traits\\RelationshipMongoTrait' => __DIR__ . '/..' . '/offline-agency/laravel-mongo-auto-sync/src/Traits/RelationshipMongoTrait.php',
         'Opis\\Closure\\Analyzer' => __DIR__ . '/..' . '/opis/closure/src/Analyzer.php',
         'Opis\\Closure\\ClosureContext' => __DIR__ . '/..' . '/opis/closure/src/ClosureContext.php',
         'Opis\\Closure\\ClosureScope' => __DIR__ . '/..' . '/opis/closure/src/ClosureScope.php',
