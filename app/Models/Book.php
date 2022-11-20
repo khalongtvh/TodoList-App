@@ -9,9 +9,7 @@ class Book extends Model
 {
   use HasFactory;
   protected $collection = 'books';
-  protected $fillable = [
-    'title', 'author_id', 'price', 'pages'
-  ];
+  protected $guarded = [];
 
   public function author()
   {

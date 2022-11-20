@@ -8,9 +8,9 @@ class Author extends Model
 {
   use HasFactory;
   protected $collection = 'authors';
-  protected $fillable  = [
-    'name'
-  ];
+
+  protected $guarded = [];
+
   public function books()
   {
     return $this->hasMany(Book::class);

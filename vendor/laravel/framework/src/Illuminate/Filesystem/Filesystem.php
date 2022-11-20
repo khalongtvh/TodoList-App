@@ -212,19 +212,6 @@ class Filesystem
     }
 
     /**
-     * Replace a given string within a given file.
-     *
-     * @param  array|string  $search
-     * @param  array|string  $replace
-     * @param  string  $path
-     * @return void
-     */
-    public function replaceInFile($search, $replace, $path)
-    {
-        file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
-    }
-
-    /**
      * Prepend to a file.
      *
      * @param  string  $path
@@ -282,9 +269,7 @@ class Filesystem
 
         foreach ($paths as $path) {
             try {
-                if (@unlink($path)) {
-                    clearstatcache(false, $path);
-                } else {
+                if (! @unlink($path)) {
                     $success = false;
                 }
             } catch (ErrorException $e) {

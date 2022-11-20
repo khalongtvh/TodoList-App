@@ -92,9 +92,7 @@ class Collection extends BaseCollection implements QueueableCollection
         $this->each(function ($model) use ($models, $attributes) {
             $extraAttributes = Arr::only($models->get($model->getKey())->getAttributes(), $attributes);
 
-            $model->forceFill($extraAttributes)
-                ->syncOriginalAttributes($attributes)
-                ->mergeCasts($models->get($model->getKey())->getCasts());
+            $model->forceFill($extraAttributes)->syncOriginalAttributes($attributes);
         });
 
         return $this;
@@ -234,7 +232,7 @@ class Collection extends BaseCollection implements QueueableCollection
             return;
         }
 
-        $models = $models->pluck($name)->whereNotNull();
+        $models = $models->pluck($name);
 
         if ($models->first() instanceof BaseCollection) {
             $models = $models->collapse();
@@ -694,7 +692,7 @@ class Collection extends BaseCollection implements QueueableCollection
         } elseif (count($relations) === 1) {
             return reset($relations);
         } else {
-            return array_intersect(...array_values($relations));
+            return array_intersect(...$relations);
         }
     }
 

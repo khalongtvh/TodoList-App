@@ -24,7 +24,7 @@ use App\Models\Author;
 // });
 // Route::get('/', [AuthorController::class, 'index'])->name('home');
 
-Route::get('/', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\AuthorController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
   Route::get('home', [HomeController::class, 'index'])->name('home');

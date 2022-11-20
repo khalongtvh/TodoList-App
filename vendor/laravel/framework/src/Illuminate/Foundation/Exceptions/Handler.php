@@ -332,13 +332,11 @@ class Handler implements ExceptionHandlerContract
         $e = $this->prepareException($this->mapException($e));
 
         foreach ($this->renderCallbacks as $renderCallback) {
-            foreach ($this->firstClosureParameterTypes($renderCallback) as $type) {
-                if (is_a($e, $type)) {
-                    $response = $renderCallback($e, $request);
+            if (is_a($e, $this->firstClosureParameterType($renderCallback))) {
+                $response = $renderCallback($e, $request);
 
-                    if (! is_null($response)) {
-                        return $response;
-                    }
+                if (! is_null($response)) {
+                    return $response;
                 }
             }
         }
@@ -351,7 +349,7 @@ class Handler implements ExceptionHandlerContract
             return $this->convertValidationExceptionToResponse($e, $request);
         }
 
-        return $this->shouldReturnJson($request, $e)
+        return $request->expectsJson()
                     ? $this->prepareJsonResponse($request, $e)
                     : $this->prepareResponse($request, $e);
     }
@@ -405,7 +403,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return $this->shouldReturnJson($request, $exception)
+        return $request->expectsJson()
                     ? response()->json(['message' => $exception->getMessage()], 401)
                     : redirect()->guest($exception->redirectTo() ?? route('login'));
     }
@@ -423,7 +421,7 @@ class Handler implements ExceptionHandlerContract
             return $e->response;
         }
 
-        return $this->shouldReturnJson($request, $e)
+        return $request->expectsJson()
                     ? $this->invalidJson($request, $e)
                     : $this->invalid($request, $e);
     }
@@ -455,18 +453,6 @@ class Handler implements ExceptionHandlerContract
             'message' => $exception->getMessage(),
             'errors' => $exception->errors(),
         ], $exception->status);
-    }
-
-    /**
-     * Determine if the exception handler response should be JSON.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $e
-     * @return bool
-     */
-    protected function shouldReturnJson($request, Throwable $e)
-    {
-        return $request->expectsJson();
     }
 
     /**

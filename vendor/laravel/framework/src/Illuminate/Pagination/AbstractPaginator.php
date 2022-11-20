@@ -8,14 +8,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Support\Traits\Tappable;
 
 /**
  * @mixin \Illuminate\Support\Collection
  */
 abstract class AbstractPaginator implements Htmlable
 {
-    use ForwardsCalls, Tappable;
+    use ForwardsCalls;
 
     /**
      * All of the items being paginated.
@@ -380,16 +379,6 @@ abstract class AbstractPaginator implements Htmlable
     }
 
     /**
-     * Determine if the paginator is on the last page.
-     *
-     * @return bool
-     */
-    public function onLastPage()
-    {
-        return ! $this->hasMorePages();
-    }
-
-    /**
      * Get the current page.
      *
      * @return int
@@ -629,7 +618,6 @@ abstract class AbstractPaginator implements Htmlable
      *
      * @return \ArrayIterator
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return $this->items->getIterator();
@@ -660,7 +648,6 @@ abstract class AbstractPaginator implements Htmlable
      *
      * @return int
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->items->count();
@@ -705,7 +692,6 @@ abstract class AbstractPaginator implements Htmlable
      * @param  mixed  $key
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return $this->items->has($key);
@@ -717,7 +703,6 @@ abstract class AbstractPaginator implements Htmlable
      * @param  mixed  $key
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->items->get($key);
@@ -730,7 +715,6 @@ abstract class AbstractPaginator implements Htmlable
      * @param  mixed  $value
      * @return void
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         $this->items->put($key, $value);
@@ -742,7 +726,6 @@ abstract class AbstractPaginator implements Htmlable
      * @param  mixed  $key
      * @return void
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         $this->items->forget($key);

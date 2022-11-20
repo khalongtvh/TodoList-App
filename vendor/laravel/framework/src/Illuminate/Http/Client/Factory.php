@@ -3,10 +3,7 @@
 namespace Illuminate\Http\Client;
 
 use Closure;
-use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response as Psr7Response;
-use GuzzleHttp\TransferStats;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -18,14 +15,14 @@ use PHPUnit\Framework\Assert as PHPUnit;
  * @method \Illuminate\Http\Client\PendingRequest asJson()
  * @method \Illuminate\Http\Client\PendingRequest asMultipart()
  * @method \Illuminate\Http\Client\PendingRequest async()
- * @method \Illuminate\Http\Client\PendingRequest attach(string|array $name, string|resource $contents = '', string|null $filename = null, array $headers = [])
+ * @method \Illuminate\Http\Client\PendingRequest attach(string|array $name, string $contents = '', string|null $filename = null, array $headers = [])
  * @method \Illuminate\Http\Client\PendingRequest baseUrl(string $url)
  * @method \Illuminate\Http\Client\PendingRequest beforeSending(callable $callback)
  * @method \Illuminate\Http\Client\PendingRequest bodyFormat(string $format)
  * @method \Illuminate\Http\Client\PendingRequest contentType(string $contentType)
  * @method \Illuminate\Http\Client\PendingRequest dd()
  * @method \Illuminate\Http\Client\PendingRequest dump()
- * @method \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null)
+ * @method \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0)
  * @method \Illuminate\Http\Client\PendingRequest sink(string|resource $to)
  * @method \Illuminate\Http\Client\PendingRequest stub(callable $callback)
  * @method \Illuminate\Http\Client\PendingRequest timeout(int $seconds)
@@ -58,13 +55,6 @@ class Factory
     }
 
     /**
-     * The event dispatcher implementation.
-     *
-     * @var \Illuminate\Contracts\Events\Dispatcher|null
-     */
-    protected $dispatcher;
-
-    /**
      * The stub callables that will handle requests.
      *
      * @var \Illuminate\Support\Collection
@@ -95,13 +85,10 @@ class Factory
     /**
      * Create a new factory instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
-    public function __construct(Dispatcher $dispatcher = null)
+    public function __construct()
     {
-        $this->dispatcher = $dispatcher;
-
         $this->stubCallbacks = collect();
     }
 
@@ -123,7 +110,7 @@ class Factory
 
         $response = new Psr7Response($status, $headers, $body);
 
-        return class_exists(\GuzzleHttp\Promise\Create::class)
+        return class_exists(GuzzleHttp\Promise\Create::class)
             ? \GuzzleHttp\Promise\Create::promiseFor($response)
             : \GuzzleHttp\Promise\promise_for($response);
     }
@@ -149,8 +136,6 @@ class Factory
     {
         $this->record();
 
-        $this->recorded = [];
-
         if (is_null($callback)) {
             $callback = function () {
                 return static::response();
@@ -166,20 +151,11 @@ class Factory
         }
 
         $this->stubCallbacks = $this->stubCallbacks->merge(collect([
-            function ($request, $options) use ($callback) {
-                $response = $callback instanceof Closure
-                                ? $callback($request, $options)
-                                : $callback;
-
-                if ($response instanceof PromiseInterface) {
-                    $options['on_stats'](new TransferStats(
-                        $request->toPsrRequest(),
-                        $response->wait(),
-                    ));
-                }
-
-                return $response;
-            },
+            $callback instanceof Closure
+                    ? $callback
+                    : function () use ($callback) {
+                        return $callback;
+                    },
         ]));
 
         return $this;
@@ -362,16 +338,6 @@ class Factory
     protected function newPendingRequest()
     {
         return new PendingRequest($this);
-    }
-
-    /**
-     * Get the current event dispatcher implementation.
-     *
-     * @return \Illuminate\Contracts\Events\Dispatcher|null
-     */
-    public function getDispatcher()
-    {
-        return $this->dispatcher;
     }
 
     /**
