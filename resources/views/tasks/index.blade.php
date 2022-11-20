@@ -1,14 +1,12 @@
 @extends('layouts.app')
-
 @section('content')
-
 <div class="container">
   <div class="row flex-row flex-nowrap">
     @forelse($tasks as $task)
     <div class="col-sm-4">
       <div class="card card-block">
         <h5 class="card-header">
-          <span>{{$task->title}}</span>
+          <span>{{$task->title}}(9)</span>
           <div class="dropdown float-right">
             <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </span>
@@ -23,16 +21,26 @@
             </div>
           </div>
         </h5>
-        <div class="card-body">
-          
+        <div class="card-body" id="{{$task->id}}">
+          <form action="{{route('cards.store')}}" method="post">
+            @csrf
+            <div class="card-composer">
+              <div class="card-detail">
+                <input name="id_task" type="hidden" value="{{$task->id}}">
+                <textarea name="title" class="list-card-composer-textarea js-card-title" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
+              </div>
+              <div class="cc-controls">
+                <button type="submit" class="btn btn-primary">Add Card</button>
+              </div>
+            </div>
+          </form>
+          <!-- <button class="addCard" value="{{$task->id}}" id="addCard_{{$task->id}}">Add a card</button> -->
         </div>
       </div>
     </div>
     @empty
     @endforelse
     <button class="btn btn-primary addBtn" style="width: 60px;height: 60px;">+</button>
-    <!-- <button class="btn btn-primary addBtn"><i class="fa-solid fa-bookmark"></i></button> -->
-
   </div>
   <!-- Modal -->
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -106,17 +114,23 @@
       </div>
     </div>
   </div>
+
 </div>
 @endsection
 
 @section('scripts')
 <script>
+  $(document).on('click', '.addCard', function() {
+
+  });
+</script>
+<script>
   $(document).on('click', '.addBtn', function() {
     var id = $(this).val();
     // alert(id);
-    $('#addModal').modal('show');
   });
 </script>
+
 <script>
   $(document).on('click', '.editBtn', function() {
     var idTask = $(this).val();

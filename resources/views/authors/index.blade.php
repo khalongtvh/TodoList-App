@@ -19,7 +19,7 @@
         <ul class="list-group">
           @forelse($authors as $author)
           <li class="list-group-item">
-            {{$author->name}}
+            {{$author->name}} 
             <span style="float:right">
               <a href="{{route('authors.edit', [$author])}}" class="btn btn-warning">Edit</a>
               <form action="{{route('authors.destroy', [$author])}}" method="post">

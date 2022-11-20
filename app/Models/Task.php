@@ -8,8 +8,10 @@ class Task extends Model
 {
   use HasFactory;
   protected $collection = 'tasks';
-  // protected $fillable = [
-  //   'title', 'deadline', 'description'
-  // ];
   protected $guarded = [];
+
+  public function cards()
+  {
+    return $this->hasMany(Card::class);
+  }
 }

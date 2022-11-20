@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\TaskController;
 use App\Models\Author;
 
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::resource('books', BookController::class);
 });
 Route::resource('tasks', TaskController::class);
+Route::resource('cards', CardController::class);
 Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
 Route::put('/update-task', [TaskController::class, 'update']);
 Auth::routes();
