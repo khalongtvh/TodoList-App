@@ -1,40 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
-  <div class="card">
-    <div class="card-body">
-      <button class="btn btn-primary addBtn">Add New Task</button>
-      <!-- <a href="{{route('tasks.create')}}" class="btn btn-primary">Add New Task</a> -->
-      <div class="mt-3">
-        <h3>List of books</h3>
-        <table class="table">
-          <thead>
-            <td>Tile</td>
-            <td colspan="2">Action</td>
-          </thead>
-          <tbody>
-            @forelse($tasks as $task)
-            <tr>
-              <td>{{$task->title}}</td>
-              <td><button type="button" value="{{$task->id}}" class="btn btn-warning editBtn">Edit</button></td>
-              <td>
-                <form action="{{route('tasks.destroy', [$task])}}" method="post">
-                  @csrf
-                  @method("DELETE")
-                  <button class="btn btn-danger">Delete</button>
-                </form>
-              </td>
-            </tr>
-            @empty
-            <!-- <tr>
-              <td colspan="5">No Book Add Yet!</td>
-            </tr> -->
-            @endforelse
-          </tbody>
-        </table>
+  <div class="row flex-row flex-nowrap">
+    @forelse($tasks as $task)
+    <div class="col-sm-4">
+      <div class="card card-block">
+        <h5 class="card-header">
+          <span>{{$task->title}}</span>
+          <div class="dropdown float-right">
+            <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </span>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <button type="button" value="{{$task->id}}" class="editBtn dropdown-item">Edit</button>
+              <!-- <a class="dropdown-item" href="#">Edit</a> -->
+              <form action="{{route('tasks.destroy', [$task])}}" method="post">
+                @csrf
+                @method("DELETE")
+                <button class="dropdown-item">Delete</button>
+              </form>
+            </div>
+          </div>
+        </h5>
+        <div class="card-body">
+          
+        </div>
       </div>
     </div>
+    @empty
+    @endforelse
+    <button class="btn btn-primary addBtn" style="width: 60px;height: 60px;">+</button>
+    <!-- <button class="btn btn-primary addBtn"><i class="fa-solid fa-bookmark"></i></button> -->
+
   </div>
   <!-- Modal -->
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
