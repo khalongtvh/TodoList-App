@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class CardController extends Controller
 {
@@ -16,6 +18,7 @@ class CardController extends Controller
   {
     //
   }
+
 
   /**
    * Show the form for creating a new resource.
@@ -33,19 +36,34 @@ class CardController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
+
   public function store(Request $request)
   {
-    //
-    // dd($request->all());
-    Card::create([
-      'title' => $request->title,
-      'task_id' => $request->id_task,
-      'dates' => $request->dates,
-      'status' => 0,
-      'background' => $request->background,
+
+    // echo $request->id_task;
+    $validator = Validator::make($request->all(), [
+      'title' => 'required'
     ]);
 
-    return redirect()->back();
+    if ($validator->fails()) {
+      return response()->json([
+        'status' => 400,
+        'message' => 'add failed'
+      ]);
+    } else {
+      Card::create([
+        'title' => $request->title,
+        'task_id' => $request->id_task,
+        'dates' => $request->dates,
+        'status' => 0,
+        'background' => $request->background,
+      ]);
+      // return response()->json([
+      //   'status' => 200,
+      //   'message' => 'add successfully'
+      // ]);
+      return redirect()->back();
+    }
   }
 
   /**
@@ -77,9 +95,20 @@ class CardController extends Controller
    * @param  \App\Models\Card  $card
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Card $card)
+  public function update(Request $request)
   {
     //
+    // dd($request->all());
+    $card = Card::find($request['id_card']);
+    $card->update([
+      'title' => $request['title'],
+    ]);
+    return response()->json([
+      'status' => '200',
+      'card' => $card
+    ]);
+    // return redirect()->back()->with('status', 'Update Successful');
+    // dd($card->title);
   }
 
   /**

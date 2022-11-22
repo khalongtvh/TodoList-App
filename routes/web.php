@@ -24,18 +24,24 @@ use App\Models\Author;
 // });
 // Route::get('/', [AuthorController::class, 'index'])->name('home');
 
-Route::get('/', [App\Http\Controllers\AuthorController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
   Route::get('home', [HomeController::class, 'index'])->name('home');
 
-  Route::resource('authors', AuthorController::class);
-  Route::resource('books', BookController::class);
+  // Route::resource('authors', AuthorController::class);
+  // Route::resource('books', BookController::class);
 });
-Route::resource('tasks', TaskController::class);
 Route::resource('cards', CardController::class);
+// /fetch-task
+Route::get('/fetch-task', [TaskController::class, 'fetch_task']);
+
+// Route::post('store-card', [CardController::class, 'store']);
+
+Route::resource('tasks', TaskController::class);
 Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
 Route::put('/update-task', [TaskController::class, 'update']);
-Auth::routes();
+
+// Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

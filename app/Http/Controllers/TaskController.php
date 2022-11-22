@@ -19,7 +19,11 @@ class TaskController extends Controller
     $tasks = Task::with('cards')->get();
     return view('tasks.index', compact('tasks'));
   }
-
+  public function fetch_task()
+  {
+    $tasks = Task::with('cards')->get();
+    return response()->json(['tasks' => $tasks]);
+  }
   /**
    * Show the form for creating a new resource.
    *
