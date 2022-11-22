@@ -167,7 +167,6 @@
 <script>
   $(document).ready(function() {
     // fetchTask();
-
     function fetchTask() {
       $.ajax({
         type: "GET",

@@ -126,46 +126,113 @@
       </div>
     </div>
   </div>
+  <!-- detail card -->
   <div class="modal fade" id="cardDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-body cardDetail">
-          <form action="{{route('tasks.store')}}" method="post">
-            @csrf
-            <div class="row">
-              <div class="col-sm-1 " style="padding:10px 0px 0px 52px">
-                <i class="fa fa-credit-card" aria-hidden="true"></i>
-              </div>
-              <div class="col-6 col-sm-11">
-                <div class="form-group">
-                  <input type="text" name="title_card" id="title_card" class="form-control" style="border:none; padding-left: 0;">
-                  <input type="hidden" id="idCard_Hidden">
-                  <p>in list <a href="#">To Do</a></p>
-                </div>
+          <!-- title card -->
+          <div class="row">
+            <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
+              <i class="fa fa-credit-card" aria-hidden="true"></i>
+            </div>
+            <div class="col-6 col-sm-11">
+              <div class="form-group">
+                <!-- <form action="{{route('tasks.store')}}" method="post"> -->
+                <!-- @csrf -->
+                <input type="text" name="title_card" id="title_card" class="form-control" style="border:none; padding-left: 0;">
+                <input type="hidden" id="idCard_Hidden">
+                <p>in list <a href="#">To Do</a></p>
+                <!-- </form> -->
               </div>
             </div>
-          </form>
-          <form action="{{route('tasks.store')}}" method="post">
-            @csrf
-            <div class="row">
-              <div class="col-sm-1 " style="padding:0px 0px 0px 52px">
-                <i class="fa fa-tasks" aria-hidden="true"></i>
+          </div>
+          <!-- description -->
+          <div class="row">
+            <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
+              <i class="fa fa-tasks" aria-hidden="true"></i>
+            </div>
+            <div class="col-6 col-sm-11">
+              <div class="form-group">
+                <!-- <form action="{{route('tasks.store')}}" method="post"> -->
+                <!-- @csrf -->
+                <p type="text" class="form-control" style="border:none; padding-left: 0;">Description</p>
+                <!-- <input type="hidden" id="idCard_Hidden"> -->
+                <!-- <input type="text" name="title_card" id="title_card" class="form-control" style="border:none; padding-left: 0;"> -->
+                <textarea name="description_card" id="description_card" class="" dir="auto" placeholder="Add a more detailed description…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
+                <button class="btn btn-success" id="addDescription">Save</button>
+                <!-- <button class=" btn btn-light">Cancel</button> -->
+                <!-- </form> -->
               </div>
-              <div class="col-6 col-sm-11">
-                <div class="form-group">
-                  <p>Description</p>
-                  <textarea name="title" id="title_{{$task->id}}" class="list-card-composer-textarea js-card-title" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
-                </div>
-              </div>
-
-          </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- end detail card -->
   @endsection
 
   @section('scripts')
+  <!-- show detailed Card -->
+  <script>
+    $(document).ready(function() {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+
+      // fetch card data
+      function fecth_card(task_id) {
+        // alert(task_id);
+        $.ajax({
+          type: "GET",
+          url: "/cards",
+          dataType: "json",
+          data: {
+            'task_id': task_id
+          },
+          success: function(response) {
+            console.log(response.card);
+            $('#title_card').val(response.card.title);
+            $('#description_card').val(response.card.description);
+          }
+        })
+      }
+
+      // show detailed card
+      $(document).on('click', '.showCard', function() {
+        var id = $(this).attr('id');
+        title = document.getElementById('titleCard_' + id);
+        $('#cardDetail').modal('show');
+        var idCard_Hidden = document.getElementById("idCard_Hidden");
+        idCard_Hidden.value = id;
+        fecth_card(id);
+      });
+
+      // update description card
+      $(document).on('click', '#addDescription', function() {
+        var idCard_Hidden = $('#idCard_Hidden').val();
+        var data = {
+          'description': document.getElementById('description_card').value,
+          'id_card': idCard_Hidden
+        };
+
+        $.ajax({
+          type: 'PUT',
+          data: data,
+          dataType: "json",
+          url: "/cards/" + idCard_Hidden,
+          success: function(response) {
+            fecth_card();
+          }
+        });
+      });
+    });
+  </script>
+  <!-- end show detailed Card -->
+  <!-- update title card -->
   <script>
     const input = document.getElementById('title_card');
     input.addEventListener("keypress", function(event) {
@@ -196,16 +263,7 @@
       }
     });
   </script>
-  <script>
-    $(document).on('click', '.showCard', function() {
-      var id = $(this).attr('id');
-      title = document.getElementById('titleCard_' + id);
-      document.getElementById('title_card').value = title.value;
-      $('#cardDetail').modal('show');
-      var idCard_Hidden = document.getElementById("idCard_Hidden");
-      idCard_Hidden.value = id;
-    });
-  </script>
+  <!-- end update title card -->
 
   <script>
     $(document).ready(function() {
@@ -271,7 +329,7 @@
           console.log(response.task.title);
           $('#idTask').val(idTask);
           $('#title').val(response.task.title);
-          $('#description').val(response.task.description);
+          $('#``').val(response.task.description);
           $('#deadline').val(response.task.deadline);
         }
       });

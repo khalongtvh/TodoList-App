@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CardResource;
 use App\Models\Card;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,9 +16,17 @@ class CardController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request)
   {
-    //
+    // dd($request->all());
+    // return CardResource::collection($request->all());
+    $card = Card::with('task')->find($request['task_id']);
+    // return CardResource::collection($card);
+    return Response()->json([
+      'status' => 200,
+      'message' => 'add successfully',
+      'card' => $card
+    ]);
   }
 
 
@@ -57,6 +67,7 @@ class CardController extends Controller
         'dates' => $request->dates,
         'status' => 0,
         'background' => $request->background,
+        'description' => null
       ]);
       // return response()->json([
       //   'status' => 200,
@@ -100,9 +111,16 @@ class CardController extends Controller
     //
     // dd($request->all());
     $card = Card::find($request['id_card']);
-    $card->update([
-      'title' => $request['title'],
-    ]);
+    if ($request['title'] != null) {
+      $card->update([
+        'title' => $request['title'],
+      ]);
+    }
+    if ($request['description'] != null) {
+      $card->update([
+        'description' => $request['description'],
+      ]);
+    }
     return response()->json([
       'status' => '200',
       'card' => $card

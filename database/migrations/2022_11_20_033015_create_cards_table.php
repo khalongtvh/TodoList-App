@@ -15,11 +15,12 @@ class CreateCardsTable extends Migration
   {
     Schema::create('cards', function (Blueprint $table) {
       // $table->id();
-      $table->foreignId('task_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+      $table->foreignId('task_id')->constrained()->cascadeOnDelete();
       $table->string('title');
       $table->date('dates');
       $table->int('status');
       $table->string('background');
+      $table->text('description');
       $table->timestamps();
     });
   }
