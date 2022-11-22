@@ -14,4 +14,9 @@ class Card extends Model
   {
     return $this->belongsTo(Task::class, 'task_id');
   }
+
+  public function checklists()
+  {
+    return $this->hasMany(checklist::class);
+  }
 }

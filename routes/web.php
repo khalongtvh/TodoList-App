@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\TaskController;
 use App\Models\Author;
 
@@ -38,6 +39,7 @@ Route::get('/fetch-task', [TaskController::class, 'fetch_task']);
 
 // Route::post('store-card', [CardController::class, 'store']);
 
+Route::resource('checklist', ChecklistController::class);
 Route::resource('tasks', TaskController::class);
 Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
 Route::put('/update-task', [TaskController::class, 'update']);

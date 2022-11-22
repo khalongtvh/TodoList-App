@@ -53,9 +53,10 @@
     </div>
     @empty
     @endforelse
-    <button class="btn btn-primary addList" style="width: 60px;height: 60px;">+</button>
+    <button class="btn btn-outline-light addList" style="width: 40px;height: 40px; border-radius: 50px">+</button>
   </div>
   <!-- Modal -->
+  <!-- add card -->
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -90,6 +91,9 @@
       </div>
     </div>
   </div>
+  <!-- add card -->
+
+  <!-- edit card -->
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -126,6 +130,8 @@
       </div>
     </div>
   </div>
+  <!-- end edit card -->
+
   <!-- detail card -->
   <div class="modal fade" id="cardDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document">
@@ -136,7 +142,7 @@
             <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
               <i class="fa fa-credit-card" aria-hidden="true"></i>
             </div>
-            <div class="col-6 col-sm-11">
+            <div class="col-sm-11">
               <div class="form-group">
                 <!-- <form action="{{route('tasks.store')}}" method="post"> -->
                 <!-- @csrf -->
@@ -152,7 +158,7 @@
             <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
               <i class="fa fa-tasks" aria-hidden="true"></i>
             </div>
-            <div class="col-6 col-sm-11">
+            <div class="col-sm-8">
               <div class="form-group">
                 <!-- <form action="{{route('tasks.store')}}" method="post"> -->
                 <!-- @csrf -->
@@ -165,12 +171,41 @@
                 <!-- </form> -->
               </div>
             </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <p>Add to card</p>
+                <a href="#" class="button-link form-control btn btn-light" id="add-checklist-menu"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Checklist</span></a>
+                <a href="#" class="button-link form-control btn btn-light"><i class="fa fa-clock-o" aria-hidden="true"></i> <span>Dates</span></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
   <!-- end detail card -->
+
+  <!-- modal check list -->
+  <div class="modal fade checklistModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Check List</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="title_checklist" class="col-form-label">Title:</label>
+            <input autofocus="true" class="form-control" name="title_checklist" id="title_checklist" placeholder="checklist">
+          </div>
+          <button type="button" class="btn btn-primary" id="add-checklist">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end modal check list -->
   @endsection
 
   @section('scripts')
@@ -183,6 +218,48 @@
         }
       });
 
+      function fecth_checklist(card_id) {
+        // alert(task_id);
+        $.ajax({
+          type: "GET",
+          url: "/checklist",
+          dataType: "json",
+          data: {
+            'card_id': card_id
+          },
+          success: function(response) {
+            console.log(response.data);
+          }
+        })
+      }
+
+      // add checklist
+      $(document).on('click', '#add-checklist', function() {
+        var title = document.getElementById('title_checklist').value;
+        var id_card = document.getElementById('idCard_Hidden').value;
+        // alert(id_card);
+        data = {
+          'title': title,
+          'id_card': id_card
+        };
+        $.ajax({
+          type: 'POST',
+          url: "/checklist/",
+          dataType: 'json',
+          data: data,
+          success: function(response) {
+            console.log(response.checklist);
+            $('.checklistModal').modal('hide');
+          },
+        })
+      });
+      // show modal add checklist
+      $(document).on('click', '#add-checklist-menu', function() {
+        $('.checklistModal').modal('show');
+        // $('.checklistModal').on('show.bs.modal', function() {
+        //   $('#title_checklist').trigger('focus')
+        // })
+      });
       // fetch card data
       function fecth_card(task_id) {
         // alert(task_id);
@@ -201,6 +278,7 @@
         })
       }
 
+
       // show detailed card
       $(document).on('click', '.showCard', function() {
         var id = $(this).attr('id');
@@ -209,6 +287,7 @@
         var idCard_Hidden = document.getElementById("idCard_Hidden");
         idCard_Hidden.value = id;
         fecth_card(id);
+        fecth_checklist(id);
       });
 
       // update description card
@@ -264,7 +343,6 @@
     });
   </script>
   <!-- end update title card -->
-
   <script>
     $(document).ready(function() {
       // fetchTask();
