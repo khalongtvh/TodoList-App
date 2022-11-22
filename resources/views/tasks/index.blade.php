@@ -153,11 +153,15 @@
               </div>
             </div>
           </div>
-          <!-- description -->
+          <!-- main -->
           <div class="row">
+            <!-- left icon -->
             <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
               <i class="fa fa-tasks" aria-hidden="true"></i>
             </div>
+            <!-- end left icon -->
+
+            <!-- description -->
             <div class="col-sm-8">
               <div class="form-group">
                 <!-- <form action="{{route('tasks.store')}}" method="post"> -->
@@ -171,6 +175,9 @@
                 <!-- </form> -->
               </div>
             </div>
+            <!-- end description -->
+
+            <!-- right menu -->
             <div class="col-sm-3">
               <div class="form-group">
                 <p>Add to card</p>
@@ -178,250 +185,289 @@
                 <a href="#" class="button-link form-control btn btn-light"><i class="fa fa-clock-o" aria-hidden="true"></i> <span>Dates</span></a>
               </div>
             </div>
+            <!-- end right menu -->
           </div>
+          <div class="row">
+            <!-- left icon -->
+            <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
+              <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i> -->
+            </div>
+            <!-- end left icon -->
+
+            <!-- description -->
+            <div class="col-sm-8">
+              <div class="form-group checklist-group">
+                <!-- <p type="text" class="form-control" style="border:none; padding-left: 0;">Checklist</p> -->
+                <!-- <div class="form-group">
+                  <button class="float-right btn btn-light">Delete</button>
+                  <input type="text" class="form-control" style="width: 85%;">
+                </div> -->
+              </div>
+            </div>
+            <!-- end description -->
+          </div>
+          <!-- end main -->
         </div>
       </div>
     </div>
   </div>
-  <!-- end detail card -->
+</div>
+<!-- end detail card -->
 
-  <!-- modal check list -->
-  <div class="modal fade checklistModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Check List</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<!-- modal check list -->
+<div class="modal fade checklistModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Check List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="title_checklist" class="col-form-label">Title:</label>
+          <input autofocus="true" class="form-control" name="title_checklist" id="title_checklist" placeholder="checklist">
         </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="title_checklist" class="col-form-label">Title:</label>
-            <input autofocus="true" class="form-control" name="title_checklist" id="title_checklist" placeholder="checklist">
-          </div>
-          <button type="button" class="btn btn-primary" id="add-checklist">Add</button>
-        </div>
+        <button type="button" class="btn btn-primary" id="add-checklist">Add</button>
       </div>
     </div>
   </div>
-  <!-- end modal check list -->
-  @endsection
+</div>
+<!-- end modal check list -->
+@endsection
 
-  @section('scripts')
-  <!-- show detailed Card -->
-  <script>
-    $(document).ready(function() {
+@section('scripts')
+<!-- show detailed Card -->
+<script>
+  $(document).ready(function() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+    function fecth_checklist(card_id) {
+      // alert(task_id);
+      $.ajax({
+        type: "GET",
+        url: "/checklist",
+        dataType: "json",
+        data: {
+          'card_id': card_id
+        },
+        success: function(response) {
+          // console.log(response.data);
+          var group = $('div.checklist-group');
+          group.html("");
+          if (response.data != '') {
+            group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">Checklist</p>');
+
+            response.data.forEach(element => {
+              console.log(element.title);
+              // group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">' + element.title + '</p>');
+              group.append('<div class="form-group row">\
+                              <div class="col-sm-10">\
+                                <input type="text" class="form-control" id="title_checklist_carModal" value=' + element.title + ' placeholder="checklist">\
+                              </div>\
+                              <label for="title_checklist_carModal" class="col-sm-2 col-form-label">Delete</label>\
+                            </div>');
+            });
+          }
+        }
+      })
+    }
+
+    // add checklist
+    $(document).on('click', '#add-checklist', function() {
+      var title = document.getElementById('title_checklist').value;
+      var id_card = document.getElementById('idCard_Hidden').value;
+      // alert(id_card);
+      data = {
+        'title': title,
+        'id_card': id_card
+      };
+      $.ajax({
+        type: 'POST',
+        url: "/checklist/",
+        dataType: 'json',
+        data: data,
+        success: function(response) {
+          console.log(response.checklist);
+          $('.checklistModal').modal('hide');
+          fecth_checklist(id_card);
+        },
+      })
+    });
+    // show modal add checklist
+    $(document).on('click', '#add-checklist-menu', function() {
+      $('.checklistModal').modal('show');
+      // $('.checklistModal').on('show.bs.modal', function() {
+      //   $('#title_checklist').trigger('focus')
+      // })
+    });
+    // fetch card data
+    function fecth_card(task_id) {
+      // alert(task_id);
+      $.ajax({
+        type: "GET",
+        url: "/cards",
+        dataType: "json",
+        data: {
+          'task_id': task_id
+        },
+        success: function(response) {
+          console.log(response.card);
+          $('#title_card').val(response.card.title);
+          $('#description_card').val(response.card.description);
+        }
+      })
+    }
+
+
+    // show detailed card
+    $(document).on('click', '.showCard', function() {
+      var id = $(this).attr('id');
+      title = document.getElementById('titleCard_' + id);
+      $('#cardDetail').modal('show');
+      var idCard_Hidden = document.getElementById("idCard_Hidden");
+      idCard_Hidden.value = id;
+      fecth_card(id);
+      fecth_checklist(id);
+    });
+
+    // update description card
+    $(document).on('click', '#addDescription', function() {
+      var idCard_Hidden = $('#idCard_Hidden').val();
+      var data = {
+        'description': document.getElementById('description_card').value,
+        'id_card': idCard_Hidden
+      };
+
+      $.ajax({
+        type: 'PUT',
+        data: data,
+        dataType: "json",
+        url: "/cards/" + idCard_Hidden,
+        success: function(response) {
+          fecth_card();
+        }
+      });
+    });
+  });
+</script>
+<!-- end show detailed Card -->
+<!-- update title card -->
+<script>
+  const input = document.getElementById('title_card');
+  input.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      const idCard_Hidden = $('#idCard_Hidden').val();
+      const data = {
+        'title': input.value,
+        'id_card': idCard_Hidden
+      };
+      event.preventDefault();
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-
-      function fecth_checklist(card_id) {
-        // alert(task_id);
-        $.ajax({
-          type: "GET",
-          url: "/checklist",
-          dataType: "json",
-          data: {
-            'card_id': card_id
-          },
-          success: function(response) {
-            console.log(response.data);
-          }
-        })
-      }
-
-      // add checklist
-      $(document).on('click', '#add-checklist', function() {
-        var title = document.getElementById('title_checklist').value;
-        var id_card = document.getElementById('idCard_Hidden').value;
-        // alert(id_card);
-        data = {
-          'title': title,
-          'id_card': id_card
-        };
-        $.ajax({
-          type: 'POST',
-          url: "/checklist/",
-          dataType: 'json',
-          data: data,
-          success: function(response) {
-            console.log(response.checklist);
-            $('.checklistModal').modal('hide');
-          },
-        })
-      });
-      // show modal add checklist
-      $(document).on('click', '#add-checklist-menu', function() {
-        $('.checklistModal').modal('show');
-        // $('.checklistModal').on('show.bs.modal', function() {
-        //   $('#title_checklist').trigger('focus')
-        // })
-      });
-      // fetch card data
-      function fecth_card(task_id) {
-        // alert(task_id);
-        $.ajax({
-          type: "GET",
-          url: "/cards",
-          dataType: "json",
-          data: {
-            'task_id': task_id
-          },
-          success: function(response) {
-            console.log(response.card);
-            $('#title_card').val(response.card.title);
-            $('#description_card').val(response.card.description);
-          }
-        })
-      }
-
-
-      // show detailed card
-      $(document).on('click', '.showCard', function() {
-        var id = $(this).attr('id');
-        title = document.getElementById('titleCard_' + id);
-        $('#cardDetail').modal('show');
-        var idCard_Hidden = document.getElementById("idCard_Hidden");
-        idCard_Hidden.value = id;
-        fecth_card(id);
-        fecth_checklist(id);
-      });
-
-      // update description card
-      $(document).on('click', '#addDescription', function() {
-        var idCard_Hidden = $('#idCard_Hidden').val();
-        var data = {
-          'description': document.getElementById('description_card').value,
-          'id_card': idCard_Hidden
-        };
-
-        $.ajax({
-          type: 'PUT',
-          data: data,
-          dataType: "json",
-          url: "/cards/" + idCard_Hidden,
-          success: function(response) {
-            fecth_card();
-          }
-        });
-      });
-    });
-  </script>
-  <!-- end show detailed Card -->
-  <!-- update title card -->
-  <script>
-    const input = document.getElementById('title_card');
-    input.addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        const idCard_Hidden = $('#idCard_Hidden').val();
-        const data = {
-          'title': input.value,
-          'id_card': idCard_Hidden
-        };
-        event.preventDefault();
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
-        $.ajax({
-          type: 'PUT',
-          data: data,
-          dataType: "json",
-          url: "/cards/" + idCard_Hidden,
-          success: function(response) {
-            console.log(response);
-            input.blur();
-            // alert($(('.titleCard_' + data.id_card)).val());
-            // document.getElementsByClassName(('titleCard_' + data.id_card).value = response.card.title);
-          }
-        });
-      }
-    });
-  </script>
-  <!-- end update title card -->
-  <script>
-    $(document).ready(function() {
-      // fetchTask();
-
-      function fetchTask() {
-        $.ajax({
-          type: "GET",
-          url: "/fetch-task",
-          dataType: "json",
-          success: function(response) {
-            // console.log(response.tasks[0].cards);
-            $.each(response.tasks, function(key, item) {
-
-            });
-          }
-        })
-      }
-
-      $(document).on('click', '.submitCard', function() {
-        var id = $(this).attr('id');
-        var task_Id = $(this).val();
-        var title = document.getElementById('title_' + task_Id).value;
-        var data = {
-          'title': title,
-          'id_task': task_Id
-        };
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
-        $.ajax({
-          url: 'cards', // cards.store
-          type: 'POST',
-          data: data,
-          dataType: "json",
-          success: function(response) {
-            console.log(response);
-            document.getElementById('title_' + task_Id).value = '';
-            // fetchTask();
-          }
-        });
-      });
-    })
-  </script>
-  <script>
-    $(document).on('click', '.addList', function() {
-      var id = $(this).val();
-      $('#addModal').modal('show');
-    });
-  </script>
-  <!-- edit modal -->
-  <script>
-    $(document).on('click', '.editBtn', function() {
-      var idTask = $(this).val();
-      // alert(idTask);
-      $('#editModal').modal('show');
       $.ajax({
-        type: 'GET',
-        url: "/edit-task/" + idTask,
+        type: 'PUT',
+        data: data,
+        dataType: "json",
+        url: "/cards/" + idCard_Hidden,
         success: function(response) {
-          console.log(response.task.title);
-          $('#idTask').val(idTask);
-          $('#title').val(response.task.title);
-          $('#``').val(response.task.description);
-          $('#deadline').val(response.task.deadline);
+          console.log(response);
+          input.blur();
+          // alert($(('.titleCard_' + data.id_card)).val());
+          // document.getElementsByClassName(('titleCard_' + data.id_card).value = response.card.title);
+        }
+      });
+    }
+  });
+</script>
+<!-- end update title card -->
+<script>
+  $(document).ready(function() {
+    // fetchTask();
+
+    function fetchTask() {
+      $.ajax({
+        type: "GET",
+        url: "/fetch-task",
+        dataType: "json",
+        success: function(response) {
+          // console.log(response.tasks[0].cards);
+          $.each(response.tasks, function(key, item) {
+
+          });
+        }
+      })
+    }
+
+    $(document).on('click', '.submitCard', function() {
+      var id = $(this).attr('id');
+      var task_Id = $(this).val();
+      var title = document.getElementById('title_' + task_Id).value;
+      var data = {
+        'title': title,
+        'id_task': task_Id
+      };
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        url: 'cards', // cards.store
+        type: 'POST',
+        data: data,
+        dataType: "json",
+        success: function(response) {
+          console.log(response);
+          document.getElementById('title_' + task_Id).value = '';
+          // fetchTask();
         }
       });
     });
-  </script>
-  <!--end edit modal -->
-  <!-- close modal -->
-  <script>
-    $(document).on('click', '.closeModal', function() {
-      var id = $(this).val();
-      // alert(id);
-      // $('#addModal').modal('hide');
-      $('.modal').modal('hide')
+  })
+</script>
+<script>
+  $(document).on('click', '.addList', function() {
+    var id = $(this).val();
+    $('#addModal').modal('show');
+  });
+</script>
+<!-- edit modal -->
+<script>
+  $(document).on('click', '.editBtn', function() {
+    var idTask = $(this).val();
+    // alert(idTask);
+    $('#editModal').modal('show');
+    $.ajax({
+      type: 'GET',
+      url: "/edit-task/" + idTask,
+      success: function(response) {
+        console.log(response.task.title);
+        $('#idTask').val(idTask);
+        $('#title').val(response.task.title);
+        $('#``').val(response.task.description);
+        $('#deadline').val(response.task.deadline);
+      }
     });
-  </script>
-  @endsection
-  <!-- <div class="card-header">{{ __('Books') }}</div> -->
+  });
+</script>
+<!--end edit modal -->
+<!-- close modal -->
+<script>
+  $(document).on('click', '.closeModal', function() {
+    var id = $(this).val();
+    // alert(id);
+    // $('#addModal').modal('hide');
+    $('.modal').modal('hide')
+  });
+</script>
+@endsection
+<!-- <div class="card-header">{{ __('Books') }}</div> -->

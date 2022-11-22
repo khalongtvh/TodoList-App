@@ -17,10 +17,9 @@ class ChecklistController extends Controller
     //
     // dd($request->all());
     $checklist = checklist::where('card_id', $request['card_id'])->get();
-    // dd($checklist);
     return response()->json([
       'status' => 'success',
-      'data' => $checklist
+      'data' => $checklist,
     ]);
   }
 
