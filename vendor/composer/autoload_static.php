@@ -533,6 +533,7 @@ class ComposerStaticInitc48896b4e8daef14935cfb861e9704c3
         'App\\Http\\Controllers\\AuthorController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthorController.php',
         'App\\Http\\Controllers\\BookController' => __DIR__ . '/../..' . '/app/Http/Controllers/BookController.php',
         'App\\Http\\Controllers\\CardController' => __DIR__ . '/../..' . '/app/Http/Controllers/CardController.php',
+        'App\\Http\\Controllers\\ChecklistController' => __DIR__ . '/../..' . '/app/Http/Controllers/ChecklistController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\TaskController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskController.php',
