@@ -41,7 +41,7 @@
             <div class="card-composer">
               <div class="card-detail">
                 <input name="id_task" id="id_task" type="hidden" value="{{$task->id}}">
-                <textarea name="title" id="title_{{$task->id}}" class="list-card-composer-textarea js-card-title" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
+                <input type="text" name="title" id="title_{{$task->id}}" class="list-card-composer-textarea js-card-title form-control title_card" rows="1" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></input>
               </div>
               <div class="cc-controls">
                 <button type="submit" id="addCard_{{$task->id}}" value="{{$task->id}}" class="btn btn-primary">Add Card</button>
