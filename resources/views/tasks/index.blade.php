@@ -35,8 +35,8 @@
             @empty
             @endforelse
           </div>
-          <!-- <form action="javascript:void(0)"> -->
-          <form action="{{url('cards')}}" method="post">
+          <form action="javascript:void(0)">
+            <!-- <form action="{{url('cards')}}" method="post"> -->
             @csrf
             <div class="card-composer">
               <div class="card-detail">
@@ -247,7 +247,9 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+    // add new card
 
+    // fetch checklist
     function fetch_checklist(card_id) {
       // alert(task_id);
       $.ajax({
@@ -291,6 +293,7 @@
         }
       })
     }
+
     // update status checklist
     $(document).on('change', '.status_checklist', function() {
       var id = $(this).attr('id');
@@ -312,6 +315,7 @@
           }
         });
     });
+
     // update title checklist
     $(document).on('keypress', '.title_checklist_carModal', function(event) {
       if (event.key === "Enter") {
@@ -348,6 +352,7 @@
         },
       })
     });
+
     // add checklist
     $(document).on('click', '#add-checklist', function() {
       var title = document.getElementById('title_checklist').value;
@@ -369,6 +374,7 @@
         },
       })
     });
+
     // show modal add checklist
     $(document).on('click', '#add-checklist-menu', function() {
       $('.checklistModal').modal('show');
@@ -376,6 +382,7 @@
       //   $('#title_checklist').trigger('focus')
       // })
     });
+
     // fetch card data
     function fecth_card(task_id) {
       // alert(task_id);
@@ -393,8 +400,6 @@
         }
       })
     }
-
-
     // show detailed card
     $(document).on('click', '.showCard', function() {
       var id = $(this).attr('id');
@@ -405,7 +410,6 @@
       fecth_card(id);
       fetch_checklist(id);
     });
-
     // update description card
     $(document).on('click', '#addDescription', function() {
       var idCard_Hidden = $('#idCard_Hidden').val();
@@ -413,7 +417,6 @@
         'description': document.getElementById('description_card').value,
         'id_card': idCard_Hidden
       };
-
       $.ajax({
         type: 'PUT',
         data: data,
@@ -427,7 +430,7 @@
   });
 </script>
 <!-- end show detailed Card -->
-<!-- update title card -->
+<!-- update title card modal -->
 <script>
   const input = document.getElementById('title_card');
   input.addEventListener("keypress", function(event) {
@@ -462,7 +465,6 @@
 <script>
   $(document).ready(function() {
     // fetchTask();
-
     function fetchTask() {
       $.ajax({
         type: "GET",
@@ -540,4 +542,3 @@
   });
 </script>
 @endsection
-<!-- <div class="card-header">{{ __('Books') }}</div> -->
