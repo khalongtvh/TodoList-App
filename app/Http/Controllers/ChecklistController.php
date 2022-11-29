@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\checklist;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 
 class ChecklistController extends Controller
@@ -46,7 +47,7 @@ class ChecklistController extends Controller
     $checklist = Checklist::create([
       'title' => $request['title'],
       'card_id' => $request['id_card'],
-      'status' => $request['status'],
+      'status' => 'fasle',
     ]);
     return response()->json($checklist);
   }
@@ -83,6 +84,20 @@ class ChecklistController extends Controller
   public function update(Request $request, checklist $checklist)
   {
     //
+    // dd($request['status']);
+    if ($request['status'] != null) {
+      $checklist->update([
+        'status' => $request['status'],
+      ]);
+    }
+    if ($request['title'] != null) {
+      $checklist->update([
+        'title' => $request['title'],
+      ]);
+    }
+    return response()->json([
+      'data' => $checklist
+    ]);
   }
 
   /**
@@ -94,5 +109,11 @@ class ChecklistController extends Controller
   public function destroy(checklist $checklist)
   {
     //
+    // dd($checklist->title);
+    $checklist->delete();
+    return Response()->json([
+      'status' => 'success',
+      'data' => $checklist
+    ]);
   }
 }

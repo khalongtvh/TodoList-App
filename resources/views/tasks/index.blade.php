@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+
   <div class="row flex-row flex-nowrap">
     @forelse($tasks as $task)
     <div class="col-sm-4">
@@ -190,7 +191,7 @@
           <div class="row">
             <!-- left icon -->
             <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
-              <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i> -->
+              <i class="fa fa-check-square-o" aria-hidden="true"></i>
             </div>
             <!-- end left icon -->
 
@@ -247,7 +248,7 @@
       }
     });
 
-    function fecth_checklist(card_id) {
+    function fetch_checklist(card_id) {
       // alert(task_id);
       $.ajax({
         type: "GET",
@@ -264,20 +265,89 @@
             group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">Checklist</p>');
 
             response.data.forEach(element => {
-              console.log(element.title);
+              console.log(element._id);
               // group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">' + element.title + '</p>');
-              group.append('<div class="form-group row">\
-                              <div class="col-sm-10">\
-                                <input type="text" class="form-control" id="title_checklist_carModal" value=' + element.title + ' placeholder="checklist">\
-                              </div>\
-                              <label for="title_checklist_carModal" class="col-sm-2 col-form-label">Delete</label>\
-                            </div>');
+              group.append('  <div class="form-row align-items-center">\
+                                <div class="col-auto my-1">\
+                                  <div class="form-check">\
+                                    <input class="form-check-input status_checklist status_checklist_' + element._id + '" type="checkbox" id="' + element._id + '">\
+                                  </div>\
+                                </div>\
+                                <div class="col-sm-10 my-1">\
+                                  <div class="input-group">\
+                                    <input type="text" class="form-control title_checklist_carModal title_checklist_' + element._id + '" value=' + element.title + ' id="' + element._id + '" placeholder="checklist">\
+                                  </div>\
+                                </div>\
+                                <div class="col-auto my-1">\
+                                  <button type="submit" id="' + element._id + '" class="btn btn-danger remove_checklist">X</button>\
+                                </div>\
+                              </div>');
+              if (element.status == "true") {
+                $('.status_checklist_' + element._id + '').attr('checked', 'checked');
+                $('.title_checklist_' + element._id + '').attr('style', 'color:green; text-decoration: line-through; text-decoration-color: red');
+              }
             });
           }
         }
       })
     }
+    // update status checklist
+    $(document).on('change', '.status_checklist', function() {
+      var id = $(this).attr('id');
+      // console.log(id);
+      var status = $(this).is(':checked');
+      data = {
+          'id': id,
+          'status': status
+        },
+        // console.log(data);
+        $.ajax({
+          type: 'PUT',
+          data: data,
+          dataType: "json",
+          url: "/checklist/" + id,
+          success: function(response) {
+            console.log("update status checklist " + response.data.title + " " + response.data.status);
+            fetch_checklist(response.data.card_id);
+          }
+        });
+    });
+    // update title checklist
+    $(document).on('keypress', '.title_checklist_carModal', function(event) {
+      if (event.key === "Enter") {
+        data = {
+          'id': $(this).attr('id'),
+          'title': $(this).val()
+        };
+        $.ajax({
+          type: 'PUT',
+          data: data,
+          dataType: "json",
+          url: "/checklist/" + $(this).attr('id'),
+          success: function(response) {
+            console.log("update tilte checklist" + response.data.title);
+            fetch_checklist(response.data.card_id);
+          }
+        });
+      }
+    })
 
+    // remove checklist
+    $(document).on('click', '.remove_checklist', function() {
+      var id_checklist = $(this).attr('id');
+      data = {
+        'id': id_checklist,
+      };
+      $.ajax({
+        type: 'DELETE',
+        url: "checklist/" + id_checklist,
+        success: function(response) {
+          console.log(response.data);
+          var id_card = response.data.card_id;
+          fetch_checklist(id_card);
+        },
+      })
+    });
     // add checklist
     $(document).on('click', '#add-checklist', function() {
       var title = document.getElementById('title_checklist').value;
@@ -295,7 +365,7 @@
         success: function(response) {
           console.log(response.checklist);
           $('.checklistModal').modal('hide');
-          fecth_checklist(id_card);
+          fetch_checklist(id_card);
         },
       })
     });
@@ -333,7 +403,7 @@
       var idCard_Hidden = document.getElementById("idCard_Hidden");
       idCard_Hidden.value = id;
       fecth_card(id);
-      fecth_checklist(id);
+      fetch_checklist(id);
     });
 
     // update description card
