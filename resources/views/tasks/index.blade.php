@@ -182,8 +182,12 @@
             <div class="col-sm-3">
               <div class="form-group">
                 <p>Add to card</p>
-                <a href="#" class="button-link form-control btn btn-light" id="add-checklist-menu"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Checklist</span></a>
-                <a href="#" class="button-link form-control btn btn-light"><i class="fa fa-clock-o" aria-hidden="true"></i> <span>Dates</span></a>
+                <input type="button" class="form-control btn btn-light" id="add-checklist-menu" value="Checklist">
+                  <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i>  -->
+                  
+                <!-- </a> -->
+                <input type="button" value="Dates" id="dateID" class="btn btn-light form-control">
+                <input type="hidden" id="dates_hidden">
               </div>
             </div>
             <!-- end right menu -->
@@ -242,6 +246,19 @@
 <!-- show detailed Card -->
 <script>
   $(document).ready(function() {
+    var dateObject = $("#dateID").datepicker("getDate");
+    var dateString = $.datepicker.formatDate("dd-mm-yy", dateObject);
+    console.log(dateString);
+
+    var date = $("#dateID").datepicker({
+      onSelect: function(selected) {
+        var selectedDate = $(this).datepicker('getDate');
+        var dateString = $.datepicker.formatDate("dd-mm-yy", selectedDate);
+        $("#dates_hidden").val(dateString);
+        $("#dateID").val('Dates');
+        console.log(dateString);
+      }
+    });
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
