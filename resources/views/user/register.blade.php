@@ -29,10 +29,10 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input name="first_name" id="first_name" class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" required/>
+                                                    <input name="first_name" id="first_name" class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" required />
                                                     <label for="inputFirstName">First name</label>
                                                 </div>
-                                              
+
                                             </div>
 
                                             <div class="col-md-6">
@@ -40,22 +40,24 @@
                                                     <input name="last_name" id="last_name" class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" required />
                                                     <label for="inputLastName">Last name</label>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input name="email" id="email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com"  required/>
+                                            <input name="email" id="email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com" required />
                                             <label for="inputEmail">Email address</label>
                                         </div>
-                                      
+                                        @error('email')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input name="password" id="password" class="form-control" id="inputPassword" type="password" placeholder="Create a password" required/>
+                                                    <input name="password" id="password" class="form-control" id="inputPassword" type="password" placeholder="Create a password" required />
                                                     <label for="inputPassword">Password</label>
                                                 </div>
-                                              
+
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
@@ -63,11 +65,11 @@
                                                     <label for="inputPasswordConfirm">Confirm Password</label>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
                                         @error('password')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         @if(session()->has('success'))
                                         <div class="alert alert-success">
                                             {{ session()->get('success') }}
