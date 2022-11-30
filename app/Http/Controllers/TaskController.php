@@ -93,15 +93,15 @@ class TaskController extends Controller
   public function update(Request $request)
   {
     //
-    dd($request->all());
-    // $task = Task::find($request['idTask']);
-    // // dd($task);
-    // $task->update([
-    //   'title' => $request['title'],
-    //   'deadline' => $request['deadline'],
-    //   'description' => $request['description'],
-    // ]);
-    // return redirect()->back()->with('status', 'Update Successful');
+    // dd($request->all());
+    $task = Task::find($request['idTask']);
+    // dd($task);
+    $task->update([
+      'title' => $request['title'],
+      'deadline' => $request['deadline'],
+      'description' => $request['description'],
+    ]);
+    return redirect()->back()->with('status', 'Update Successful');
   }
 
   /**
