@@ -20,6 +20,10 @@
   .btn-gray:hover {
     background: #d4d7de;
   }
+
+  .btn-warning {
+    color: white;
+  }
 </style>
 <div class="container">
   <div class="row flex-row flex-nowrap taskslist">
@@ -370,7 +374,7 @@
                                   <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>\
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\
                                     <button type="button" value="' + task._id + '" class="editBtn dropdown-item">Edit</button>\
-                                    <form action="{{route("tasks.destroy", [' + task + '])}}" method="post">\
+                                    <form action="{{route("tasks.destroy",[' + task + '])}}" method="post">\
                                       @csrf\
                                       @method("DELETE")\
                                       <button class="dropdown-item">Delete</button>\
@@ -388,7 +392,7 @@
                                       <input type="text" name="title" id="title_' + task._id + '" class="list-card-composer-textarea js-card-title form-control title_card" rows="1" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></input>\
                                     </div>\
                                     <div class="cc-controls">\
-                                      <button type="submit" style="margin-top:10px" id="addCard_' + task._id + '" value="' + task._id + '" class="btn btn-primary addCard">Add Card</button>\
+                                      <button type="submit" style="margin-top:10px; float:right" id="addCard_' + task._id + '" value="' + task._id + '" class="btn btn-primary addCard">Add Card</button>\
                                     </div>\
                                   </div>\
                                 </form>\
