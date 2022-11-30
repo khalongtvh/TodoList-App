@@ -126,9 +126,9 @@
             <div class="col-sm-3">
               <div class="form-group">
                 <p>Add to card</p>
-                <input type="button" class="form-control btn btn-light" id="add-checklist-menu" value="Checklist">
-                  <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i>  -->
-                  
+                <input type="button" class="form-control btn btn-light" id="add-checklist-menu" style = "margin-bottom:10px"value="Checklist">
+                <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i>  -->
+
                 <!-- </a> -->
                 <input type="button" value="Dates" id="dateID" class="btn btn-light form-control">
                 <input type="hidden" id="dates_hidden">
@@ -194,6 +194,20 @@
 <!-- show detailed Card -->
 <script>
   $(document).ready(function() {
+    fetchTasks();
+    var dateObject = $("#dateID").datepicker("getDate");
+    var dateString = $.datepicker.formatDate("dd-mm-yy", dateObject);
+    console.log(dateString);
+
+    var date = $("#dateID").datepicker({
+      onSelect: function(selected) {
+        var selectedDate = $(this).datepicker('getDate');
+        var dateString = $.datepicker.formatDate("dd-mm-yy", selectedDate);
+        $("#dates_hidden").val(dateString);
+        $("#dateID").val('Dates');
+        console.log(dateString);
+      }
+    });
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -445,6 +459,7 @@
           // console.log(response.task.title);
           $('#card_' + response.data.task_id).html('');
           fetchTask(response.task);
+          $('.modal').modal('hide');
         },
       })
 

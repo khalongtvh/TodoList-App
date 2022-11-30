@@ -560,6 +560,7 @@ class ComposerStaticInitc48896b4e8daef14935cfb861e9704c3
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Resources\\CardResource' => __DIR__ . '/../..' . '/app/Http/Resources/CardResource.php',
+        'App\\Http\\Resources\\TaskResource' => __DIR__ . '/../..' . '/app/Http/Resources/TaskResource.php',
         'App\\Models\\Author' => __DIR__ . '/../..' . '/app/Models/Author.php',
         'App\\Models\\Book' => __DIR__ . '/../..' . '/app/Models/Book.php',
         'App\\Models\\Card' => __DIR__ . '/../..' . '/app/Models/Card.php',
