@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ChecklistController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TaskController;
 use App\Models\Author;
 
@@ -43,6 +44,11 @@ Route::resource('checklist', ChecklistController::class);
 Route::resource('tasks', TaskController::class);
 Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
 Route::put('/update-task', [TaskController::class, 'update']);
+
+Route::resource('customers', CustomerController::class);
+Route::get('/login', [CustomerController::class, 'index']);
+Route::get('/register', [CustomerController::class, 'register']);
+Route::post('/', [CustomerController::class, 'login']);
 
 // Auth::routes();
 
