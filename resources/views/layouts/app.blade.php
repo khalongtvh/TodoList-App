@@ -47,7 +47,7 @@
 
       </div>
       <div class="search-ajax-result">
-        <div class= "search-item-task">
+        <div class= "search-item-card">
 
         </div>
 
@@ -162,7 +162,7 @@
               'search': value
             },
             success: function(data) {
-              $('.search-item-task').html(data);
+              $('.search-item-card').html(data);
               $('.search-ajax-result').show();
             }
           });

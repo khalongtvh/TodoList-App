@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskResource;
+use App\Models\Card;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -123,14 +124,14 @@ class TaskController extends Controller
   public function ajax_search(Request $request){
     $output = '';
     if($request->ajax()){
-      $tasks = Task::where('title', 'LIKE', '%'.$request->search.'%')->get();
-      if($tasks){
-        foreach($tasks as $task){
+      $cards = Card::where('title', 'LIKE', '%'.$request->search.'%')->get();
+      if($cards){
+        foreach($cards as $card){
             $output .=' 
             <a class="pull-left" href="#">
             </a>
             <div class="media-body">
-                <h4 class = "media-heading"><a href="#">'.$task->title.'</a></h4>                  
+                <h4 class = "media-heading"><a href="#">'.$card->title.'</a></h4>                  
             </div> ';
         } 
         return response()->json($output);
