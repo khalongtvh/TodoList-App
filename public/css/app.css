@@ -89,6 +89,24 @@
     }
 }
 
+#title-task-in-modal-detail {
+    text-decoration: underline;
+}
+
+.font-16 {
+    font-size: 16px!important;
+}
+
+.font-20 {
+    font-size: 20px!important;
+}
+
+.font-title {
+    font-weight: 500!important;
+    border: none!important;
+    padding-left: 0!important;
+}
+
 .btn-card {
     margin-bottom: 10px;
     background-color: rgb(16, 164, 5)!important;

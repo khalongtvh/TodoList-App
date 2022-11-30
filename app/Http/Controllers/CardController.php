@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CardResource;
 use App\Models\Card;
+use App\Models\Task;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -61,19 +62,19 @@ class CardController extends Controller
         'message' => 'add failed'
       ]);
     } else {
-      Card::create([
-        'title' => $request->title,
-        'task_id' => $request->id_task,
-        'dates' => $request->dates,
-        'status' => 0,
-        'background' => $request->background,
-        'description' => null
+      $card = new Card();
+      $card->title = $request->title;
+      $card->task_id = $request->idTask;
+      $card->dates = 0;
+      $card->status = 0;
+      $card->background = $request->background;
+      $card->description = "";
+      $card->save();
+      return response()->json([
+        'status' => 200,
+        'message' => 'add successfully',
+        'card' => $card
       ]);
-      // return response()->json([
-      //   'status' => 200,
-      //   'message' => 'add successfully'
-      // ]);
-      return redirect()->back();
     }
   }
 
@@ -138,5 +139,12 @@ class CardController extends Controller
   public function destroy(Card $card)
   {
     //
+    // dd($card->task_id);
+    $card->delete();
+    $task = Task::with('cards')->where('_id', $card->task_id)->first();
+    return response()->json([
+      'data' => $card,
+      'task' => $task
+    ]);
   }
 }

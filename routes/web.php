@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::resource('cards', CardController::class);
 // /fetch-task
-Route::get('/fetch-task', [TaskController::class, 'fetch_task']);
+Route::get('/fetch-tasks', [TaskController::class, 'fetch_tasks']);
 
 // Route::post('store-card', [CardController::class, 'store']);
 

@@ -1,60 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-
-  <div class="row flex-row flex-nowrap">
-    @forelse($tasks as $task)
-    <div class="col-sm-4">
-      <div class="card card-block">
-        <h5 class="card-body" style="background-color: #EBECF0;">
-          <span>{{$task->title}}({{count($task->cards)}})</span>
-          <div class="dropdown float-right">
-            <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </span>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <button type="button" value="{{$task->id}}" class="editBtn dropdown-item">Edit</button>
-              <!-- <a class="dropdown-item" href="#">Edit</a> -->
-              <form action="{{route('tasks.destroy', [$task])}}" method="post">
-                @csrf
-                @method("DELETE")
-                <button class="dropdown-item">Delete</button>
-              </form>
-            </div>
-          </div>
-        </h5>
-        <div class="card-body" id="{{$task->id}}" style="background-color: #EBECF0;">
-          <div class="list-group" id="card_{{$task->id}}">
-            @forelse($task->cards as $key => $card)
-            <input type="hidden" value="{{$card->title}}" id="titleCard_{{$card->id}}">
-            <button class="btn btn-card text-left showCard" id="{{$card->id}}">
-              <span class="titleCard_{{$card->id}}">{{$card->title}}</span>
-              @if($card->dates != null)
-              <p>{{$card->dates}}</p>
-              @endif
-            </button>
-            @empty
-            @endforelse
-          </div>
-          <form action="javascript:void(0)">
-            <!-- <form action="{{url('cards')}}" method="post"> -->
-            @csrf
-            <div class="card-composer">
-              <div class="card-detail">
-                <input name="id_task" id="id_task" type="hidden" value="{{$task->id}}">
-                <input type="text" name="title" id="title_{{$task->id}}" class="list-card-composer-textarea js-card-title form-control title_card" rows="1" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></input>
-              </div>
-              <div class="cc-controls">
-                <button type="submit" id="addCard_{{$task->id}}" value="{{$task->id}}" class="btn btn-primary">Add Card</button>
-              </div>
-            </div>
-          </form>
-          <!-- <button class="addCard" value="{{$task->id}}" id="addCard_{{$task->id}}">Add a card</button> -->
-        </div>
-      </div>
-    </div>
-    @empty
-    @endforelse
-    <button class="btn btn-outline-light addList" style="width: 40px;height: 40px; border-radius: 50px">+</button>
+  <div class="row flex-row flex-nowrap taskslist">
   </div>
   <!-- Modal -->
   <!-- add card -->
@@ -145,12 +92,9 @@
             </div>
             <div class="col-sm-11">
               <div class="form-group">
-                <!-- <form action="{{route('tasks.store')}}" method="post"> -->
-                <!-- @csrf -->
-                <input type="text" name="title_card" id="title_card" class="form-control" style="border:none; padding-left: 0;">
+                <input type="text" name="title_card" id="title_card" class="form-control font-title font-20" style="border:none; padding-left: 0;">
                 <input type="hidden" id="idCard_Hidden">
-                <p>in list <a href="#">To Do</a></p>
-                <!-- </form> -->
+                <p>in list <a href="#" id="title-task-in-modal-detail"></a></p>
               </div>
             </div>
           </div>
@@ -167,10 +111,10 @@
               <div class="form-group">
                 <!-- <form action="{{route('tasks.store')}}" method="post"> -->
                 <!-- @csrf -->
-                <p type="text" class="form-control" style="border:none; padding-left: 0;">Description</p>
+                <p type="text" class="form-control font-title font-16">Description</p>
                 <!-- <input type="hidden" id="idCard_Hidden"> -->
                 <!-- <input type="text" name="title_card" id="title_card" class="form-control" style="border:none; padding-left: 0;"> -->
-                <textarea name="description_card" id="description_card" class="" dir="auto" placeholder="Add a more detailed description…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
+                <textarea name="description_card" id="description_card" class="form-control" style="margin-bottom:10px" dir="auto" placeholder="Add a more detailed description…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
                 <button class="btn btn-success" id="addDescription">Save</button>
                 <!-- <button class=" btn btn-light">Cancel</button> -->
                 <!-- </form> -->
@@ -186,26 +130,30 @@
                 <a href="#" class="button-link form-control btn btn-light"><i class="fa fa-clock-o" aria-hidden="true"></i> <span>Dates</span></a>
               </div>
             </div>
+
             <!-- end right menu -->
           </div>
           <div class="row">
             <!-- left icon -->
-            <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
-              <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            <div class="col-sm-1 icon-checklist" style="padding:6px 0px 0px 52px">
+
             </div>
             <!-- end left icon -->
 
             <!-- description -->
             <div class="col-sm-8">
               <div class="form-group checklist-group">
-                <!-- <p type="text" class="form-control" style="border:none; padding-left: 0;">Checklist</p> -->
-                <!-- <div class="form-group">
-                  <button class="float-right btn btn-light">Delete</button>
-                  <input type="text" class="form-control" style="width: 85%;">
-                </div> -->
               </div>
             </div>
-            <!-- end description -->
+            <div class="col-sm-3">
+
+              <div class="form-group">
+                <p>Action</p>
+                <a href="#" class="button-link form-control btn btn-light" id="remove-card-menu"><i class="fa fa-archive" aria-hidden="true"></i> <span>Remove</span></a>
+              </div>
+              <!-- end description -->
+            </div>
+
           </div>
           <!-- end main -->
         </div>
@@ -242,13 +190,112 @@
 <!-- show detailed Card -->
 <script>
   $(document).ready(function() {
+    fetchTasks();
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     // add new card
+    $(document).on('click', '.addCard', function() {
+      // alert('Add');
+      var idTask = $(this).val();
+      var new_title = $('#title_' + idTask + '').val();
+      data = {
+          'title': new_title,
+          'idTask': idTask
+        },
+        $.ajax({
+          type: 'POST',
+          data: data,
+          dataType: "json",
+          url: "/cards/",
+          success: function(response) {
+            console.log(response.card);
+            fetchCard(response.card);
+            $('#title_' + idTask + '').val('');
+          }
+        });
+      // alert(new_title);
+    })
+    // fetch tasks
+    function fetchTask(task) {
+      $.each(task.cards, function(key, card) {
+        fetchCard(card);
+      });
+    }
 
+    function fetchTasks() {
+      $.ajax({
+        type: "GET",
+        url: "/fetch-tasks",
+        dataType: "json",
+        success: function(response) {
+          // console.log(response.data);
+          var tasks = response.data;
+          $.each(tasks, function(key, task) {
+            const tasks = $('.taskslist');
+            tasks.append('<div class="col-sm-4">\
+                            <div class="card card-block">\
+                              <div class="card-body" style="background-color: #EBECF0;">\
+                                <h5>' + task.title + '\
+                                <div class="dropdown float-right">\
+                                  <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>\
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\
+                                    <button type="button" value="' + task._id + '" class="editBtn dropdown-item">Edit</button>\
+                                    <form action="{{route("tasks.destroy", [' + task + '])}}" method="post">\
+                                      @csrf\
+                                      @method("DELETE")\
+                                      <button class="dropdown-item">Delete</button>\
+                                    </form>\
+                                  </div>\
+                                </div>\
+                                </h5>\
+                                <div class="list-group tasks_list" id="card_' + task._id + '">\
+                                </div>\
+                                <form action="javascript:void(0)">\
+                                  @csrf\
+                                  <div class="card-composer">\
+                                    <div class="card-detail">\
+                                      <input name="id_task" id="id_task" type="hidden" value="' + task._id + '">\
+                                      <input type="text" name="title" id="title_' + task._id + '" class="list-card-composer-textarea js-card-title form-control title_card" rows="1" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></input>\
+                                    </div>\
+                                    <div class="cc-controls">\
+                                      <button type="submit" id="addCard_' + task._id + '" value="' + task._id + '" class="btn btn-primary addCard">Add Card</button>\
+                                    </div>\
+                                  </div>\
+                                </form>\
+                              </div>\
+                            </div>\
+                          </div>');
+            fetchTask(task);
+          });
+          $('.taskslist').append('<button class="btn btn-outline-light addList" style="width: 40px;height: 40px; border-radius: 50px">+</button>');
+        }
+      })
+    };
+    // fetch card
+    function fetchCard(card) {
+      var cards = $('#card_' + card.task_id);
+      console.log(card.title);
+      cards.append('<input type="hidden" value="' + card._id + '" id="titleCard_' + card._id + '">\
+                            <button class="btn btn-card text-left showCard showCard_' + card._id + '" id="' + card._id + '">\
+                              <span id="title-card-' + card._id + '" class="titleCard_' + card._id + '">' + card.title + '</span>\
+                                <p style="margin-bottom:0">\
+                                  <lable id="dates_card" style="display:none" class="btn btn-danger"></lable>\
+                                  <lable id="checklist_card" style="display:none"></lable>\
+                                </p>\
+                            </button>\
+              ');
+      if (card.dates != 0) {
+        $('lable#dates_card').removeAttr('style');
+        $('lable#dates_card').text(card.dates);
+      }
+      // if (card.dates != 0) {
+      //   $('lable#dates_card').removeAttr('style');
+      //   $('lable#dates_card').text(card.dates);
+      // }
+    }
     // fetch checklist
     function fetch_checklist(card_id) {
       // alert(task_id);
@@ -263,9 +310,10 @@
           // console.log(response.data);
           var group = $('div.checklist-group');
           group.html("");
+          $('.icon-checklist').html("");
           if (response.data != '') {
-            group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">Checklist</p>');
-
+            group.append('<p type="text" class="form-control font-title font-16">Checklist</p>');
+            $('.icon-checklist').append('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
             response.data.forEach(element => {
               console.log(element._id);
               // group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">' + element.title + '</p>');
@@ -353,7 +401,7 @@
       })
     });
 
-    // add checklist
+    // add new checklist
     $(document).on('click', '#add-checklist', function() {
       var title = document.getElementById('title_checklist').value;
       var id_card = document.getElementById('idCard_Hidden').value;
@@ -382,7 +430,22 @@
       //   $('#title_checklist').trigger('focus')
       // })
     });
+    // remove card 
+    $(document).on('click', '#remove-card-menu', function() {
+      // alert('a');
+      var id_card = document.getElementById('idCard_Hidden').value;
+      $.ajax({
+        type: 'DELETE',
+        url: "cards/" + id_card,
+        success: function(response) {
+          // console.log(response.data.task_id);
+          // console.log(response.task.title);
+          $('#card_' + response.data.task_id).html('');
+          fetchTask(response.task);
+        },
+      })
 
+    });
     // fetch card data
     function fecth_card(task_id) {
       // alert(task_id);
@@ -397,9 +460,39 @@
           console.log(response.card);
           $('#title_card').val(response.card.title);
           $('#description_card').val(response.card.description);
+          $('#title-task-in-modal-detail').text(response.card.task.title);
+          console.log($('#title-task-in-modal-detail').text());
         }
       })
     }
+    // update title card in modal
+    const input = document.getElementById('title_card');
+    input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        const idCard_Hidden = $('#idCard_Hidden').val();
+        const data = {
+          'title': input.value,
+          'id_card': idCard_Hidden
+        };
+        event.preventDefault();
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          type: 'PUT',
+          data: data,
+          dataType: "json",
+          url: "/cards/" + idCard_Hidden,
+          success: function(response) {
+            // console.log(response.card._id);
+            input.blur();
+            $('span#title-card-' + response.card._id).text(response.card.title);
+          }
+        });
+      }
+    });
     // show detailed card
     $(document).on('click', '.showCard', function() {
       var id = $(this).attr('id');
@@ -423,7 +516,7 @@
         dataType: "json",
         url: "/cards/" + idCard_Hidden,
         success: function(response) {
-          fecth_card();
+          fecth_card(idCard_Hidden);
         }
       });
     });
@@ -432,80 +525,10 @@
 <!-- end show detailed Card -->
 <!-- update title card modal -->
 <script>
-  const input = document.getElementById('title_card');
-  input.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-      const idCard_Hidden = $('#idCard_Hidden').val();
-      const data = {
-        'title': input.value,
-        'id_card': idCard_Hidden
-      };
-      event.preventDefault();
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-        type: 'PUT',
-        data: data,
-        dataType: "json",
-        url: "/cards/" + idCard_Hidden,
-        success: function(response) {
-          console.log(response);
-          input.blur();
-          // alert($(('.titleCard_' + data.id_card)).val());
-          // document.getElementsByClassName(('titleCard_' + data.id_card).value = response.card.title);
-        }
-      });
-    }
-  });
+
 </script>
 <!-- end update title card -->
-<script>
-  $(document).ready(function() {
-    // fetchTask();
-    function fetchTask() {
-      $.ajax({
-        type: "GET",
-        url: "/fetch-task",
-        dataType: "json",
-        success: function(response) {
-          // console.log(response.tasks[0].cards);
-          $.each(response.tasks, function(key, item) {
 
-          });
-        }
-      })
-    }
-
-    $(document).on('click', '.submitCard', function() {
-      var id = $(this).attr('id');
-      var task_Id = $(this).val();
-      var title = document.getElementById('title_' + task_Id).value;
-      var data = {
-        'title': title,
-        'id_task': task_Id
-      };
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-        url: 'cards', // cards.store
-        type: 'POST',
-        data: data,
-        dataType: "json",
-        success: function(response) {
-          console.log(response);
-          document.getElementById('title_' + task_Id).value = '';
-          // fetchTask();
-        }
-      });
-    });
-  })
-</script>
 <script>
   $(document).on('click', '.addList', function() {
     var id = $(this).val();

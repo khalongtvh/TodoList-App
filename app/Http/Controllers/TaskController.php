@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -14,15 +15,13 @@ class TaskController extends Controller
    */
   public function index()
   {
-    //
-    // $tasks = Task::all();
-    $tasks = Task::with('cards')->get();
-    return view('tasks.index', compact('tasks'));
+    $tasks = Task::all();
+    return view('tasks.index', compact('tasks'));;
   }
-  public function fetch_task()
+  public function fetch_tasks()
   {
     $tasks = Task::with('cards')->get();
-    return response()->json(['tasks' => $tasks]);
+    return response()->json(['data' => $tasks]);
   }
   /**
    * Show the form for creating a new resource.
