@@ -225,8 +225,6 @@
   <!-- show detailed Card -->
   <script>
     $(document).ready(function() {
-
-
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -244,6 +242,19 @@
       }
 
       function status_date(card) {
+        var notify = '<li class="starbucks failed">\
+              <div class="notify_data">\
+                <div class="title">\
+                  Lorem, ipsum dolor.\
+                </div>\
+                <div class="sub_title">\
+                  Lorem ipsum dolor sit amet consectetur.\
+                </div>\
+              </div>\
+              <div class="notify_status">\
+                <p>failed success</p>\
+              </div>\
+            </li>';
         if (card.dates != 0) {
           $('lable#dates_card_' + card._id).removeAttr('style');
           $('lable#dates_card_' + card._id).text(card.dates);
@@ -251,10 +262,32 @@
             $('#dates_card_' + card._id).attr('class', 'btn btn-success');
           } else {
             // console.log(daysdifference(card.dates));
-            if (daysdifference(card.dates) < 3) {
+            if (daysdifference(card.dates) < 0) {
+              // due soon
               $('#dates_card_' + card._id).attr('class', 'btn btn-danger');
+              $('.notification_ul').append('<li class="starbucks success ">\
+                                              <div class="notify_data">\
+                                                <div class="title">' + card.title + '</div>\
+                                                <div class="sub_title">' + card.description + '\
+                                                </div>\
+                                              </div>\
+                                              <div class="notify_status">\
+                                                <p>due soon</p>\
+                                              </div>\
+                                            </li>');
             } else {
+              // overdue
               $('#dates_card_' + card._id).attr('class', 'btn btn-warning');
+              $('.notification_ul').append('<li class="starbucks failed">\
+                                              <div class="notify_data">\
+                                              <div class="title">' + card.title + '</div>\
+                                              <div class="sub_title">' + card.description + '\
+                                                </div>\
+                                              </div>\
+                                              <div class="notify_status">\
+                                                <p>overdue</p>\
+                                              </div>\
+                                            </li>');
             }
           }
         }
@@ -405,6 +438,11 @@
           }
         })
       };
+      // load notity
+      function notity_card() {
+
+      };
+
       // fetch card
       function fetchCard(card) {
         var cards = $('#card_' + card.task_id);
@@ -418,8 +456,8 @@
                                 </p>\
                             </button>\
               ');
+        // console.log('1');
         status_date(card);
-
       }
       // fetch checklist
       function fetch_checklist(card_id) {
