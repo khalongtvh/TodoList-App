@@ -115,6 +115,27 @@ class TaskController extends Controller
     //
     // dd($task);
     $task->delete();
-    return redirect()->back()->with('status', 'Delete Successful');
+    return redirect()->back()->json([
+      'status' => 'Create Account Success.',
+    ]);
+  }
+
+  public function ajax_search(Request $request){
+    $output = '';
+    if($request->ajax()){
+      $tasks = Task::where('title', 'LIKE', '%'.$request->search.'%')->get();
+      if($tasks){
+        foreach($tasks as $task){
+            $output .=' 
+            <a class="pull-left" href="#">
+            </a>
+            <div class="media-body">
+                <h4 class = "media-heading"><a href="#">'.$task->title.'</a></h4>                  
+            </div> ';
+        } 
+        return response()->json($output);
+      }
+    }
+      return view('tasks.index');
   }
 }

@@ -23,6 +23,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="{{ asset('js/scripts.js') }}"></script>
   <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <style>
+    .form-search .search-ajax-result {
+      padding: 10px;
+      width: 15%;
+      position: absolute;
+      background-color: white;
+    }
+  </style>
 </head>
 
 <body>
@@ -32,12 +40,20 @@
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0 form-search">
       <div class="input-group">
-        <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+        <input name="search" class="form-control input-search-ajax" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
         <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+
+      </div>
+      <div class="search-ajax-result">
+        <div class= "search-item-task">
+
+        </div>
+
       </div>
     </form>
+
     <!-- Navbar-->
     <div class="navbar_right">
       <div class="notifications">
@@ -58,7 +74,7 @@
           <ul class="profile_ul">
             <li><a class="profile" href="#"><span class="picon"><i class="fas fa-user-alt"></i></span>address</a></li>
             <li><a class="settings" href="#"><span class="picon"><i class="fas fa-cog"></i></span>Settings</a></li>
-            <li><a class="logout" href="#"><span class="picon"><i class="fas fa-sign-out-alt"></i></span>Logout</a></li>
+            <li><a class="logout" href="{{url('/login')}}"><span class="picon"><i class="fas fa-sign-out-alt"></i></span>Logout</a></li>
           </ul>
         </div>
       </div>
@@ -118,7 +134,6 @@
 
 
 
-
   <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script> -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -129,6 +144,34 @@
   <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+  <script>
+    $(document).ready(function() {
+      $('.search-ajax-result').hide();
+
+      $('.input-search-ajax').keyup(function() {
+        var value = $(this).val();
+        if (value == '') {
+          $('.search-ajax-result').hide();
+        } else {
+          $.ajax({
+            url: "/ajax-search-task",
+            type: "GET",
+            data: {
+              'search': value
+            },
+            success: function(data) {
+              $('.search-item-task').html(data);
+              $('.search-ajax-result').show();
+            }
+          });
+        }
+
+      });
+    })
+  </script>
+
   @yield('scripts')
 </body>
 <style>

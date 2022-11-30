@@ -44,6 +44,7 @@ Route::resource('checklist', ChecklistController::class);
 Route::resource('tasks', TaskController::class);
 Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
 Route::put('/update-task', [TaskController::class, 'update']);
+Route::get('/ajax-search-task', [TaskController::class, 'ajax_search'])->name('tasks.ajaxsearch');
 
 Route::resource('customers', CustomerController::class);
 Route::get('/login', [CustomerController::class, 'index']);
