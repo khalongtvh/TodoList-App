@@ -30,6 +30,10 @@
       position: absolute;
       background-color: white;
     }
+
+    /* .form-search .search-item-card :hover{
+      background-color: red;
+    } */
   </style>
 </head>
 
@@ -47,8 +51,10 @@
 
       </div>
       <div class="search-ajax-result">
-        <div class= "search-item-card">
+        <div class="search-item-card">
+          <div class="media-body">
 
+          </div>
         </div>
 
       </div>

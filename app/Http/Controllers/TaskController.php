@@ -128,11 +128,12 @@ class TaskController extends Controller
       if($cards){
         foreach($cards as $card){
             $output .=' 
-            <a class="pull-left" href="#">
-            </a>
-            <div class="media-body">
-                <h4 class = "media-heading"><a href="#">'.$card->title.'</a></h4>                  
-            </div> ';
+                        <div class = "list-group tasks_list">      
+                <button class="btn btn-card text-left "">
+                              <span >' .$card->title. '</span>
+                </button>
+                </div> 
+             ';
         } 
         return response()->json($output);
       }
