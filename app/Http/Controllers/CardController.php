@@ -117,8 +117,8 @@ class CardController extends Controller
         'title' => $request['title'],
       ]);
     }
-    
-    if ($request['description'] != null) {
+
+    if (isset($request['description'])) {
       $card->update([
         'description' => $request['description'],
       ]);

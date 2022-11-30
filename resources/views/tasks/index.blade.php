@@ -1,5 +1,26 @@
 @extends('layouts.app')
 @section('content')
+<style>
+  .container {
+    max-width: 960px;
+  }
+
+  button.btn-light {
+    background: red;
+  }
+
+  .modal-content {
+    background: #F4F5F7;
+  }
+
+  .btn-gray {
+    background: #d4d7de94;
+  }
+
+  .btn-gray:hover {
+    background: #d4d7de;
+  }
+</style>
 <div class="container">
   <div class="row flex-row flex-nowrap taskslist">
   </div>
@@ -103,11 +124,11 @@
                   </div>
                   <!-- due to -->
                   <div class="form-group" id="due-to-card-form" style="display: none;">
-                    <span>Due to</span>
+                    <span class="font-12-bold">Due to</span>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="status-card-detail-modal" style="margin-top:12px">
-                      <label class="form-check-label btn btn-light " for="status-card-detail-modal" id="dates-card-detail-modal"></label>
-                      <label class="form-check-label btn btn-danger" id="remove-date-card">X</label>
+                      <label class="form-check-label btn btn-gray " for="status-card-detail-modal" id="dates-card-detail-modal"></label>
+                      <label class="form-check-label btn btn-danger" id="remove-date-card" style="padding: 0 6px;"><i class="fa fa-archive" aria-hidden="true"></i></label>
                     </div>
                   </div>
                   <!-- end due to -->
@@ -150,19 +171,19 @@
               </div>
               <!-- end checklist card -->
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="margin-top:60px">
               <div class="form-group">
-                <p>Add to card</p>
-                <input type="button" class="form-control btn btn-light" id="add-checklist-menu" style="margin-bottom:10px" value="Checklist">
+                <p class="font-12-bold">Add to card</p>
+                <input type="button" class="form-control btn btn-gray" id="add-checklist-menu" style="margin-bottom:10px" value="Checklist">
                 <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i>  -->
 
                 <!-- </a> -->
-                <input type="button" value="Dates" id="dateID" class="btn btn-light form-control">
+                <input type="button" value="Dates" id="dateID" class="btn btn-gray form-control">
                 <input type="hidden" id="dates_hidden">
               </div>
               <div class="form-group">
-                <p>Action</p>
-                <a href="#" class="button-link form-control btn btn-light" id="remove-card-menu"><i class="fa fa-archive" aria-hidden="true"></i> <span>Remove</span></a>
+                <p class="font-12-bold">Action</p>
+                <a href="#" class="button-link form-control btn btn-gray" id="remove-card-menu"><i class="fa fa-archive" aria-hidden="true"></i> <span>Remove</span></a>
               </div>
             </div>
             <!-- detailed card -->
@@ -200,12 +221,40 @@
   <!-- show detailed Card -->
   <script>
     $(document).ready(function() {
+
+
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
       fetchTasks();
+
+      function daysdifference(dates) {
+        var now = new Date().toLocaleDateString();
+        var startDay = new Date(now);
+        var endDay = new Date(dates);
+        var millisBetween = endDay.getTime() - startDay.getTime();
+        var days = millisBetween / (1000 * 3600 * 24);
+        return Math.round(days);
+      }
+
+      function status_date(card) {
+        if (card.dates != 0) {
+          $('lable#dates_card_' + card._id).removeAttr('style');
+          $('lable#dates_card_' + card._id).text(card.dates);
+          if (card.status == "true") {
+            $('#dates_card_' + card._id).attr('class', 'btn btn-success');
+          } else {
+            // console.log(daysdifference(card.dates));
+            if (daysdifference(card.dates) < 3) {
+              $('#dates_card_' + card._id).attr('class', 'btn btn-danger');
+            } else {
+              $('#dates_card_' + card._id).attr('class', 'btn btn-warning');
+            }
+          }
+        }
+      }
 
       // remove dates card
       $(document).on('click', '#remove-date-card', function() {
@@ -243,18 +292,13 @@
         });
       });
 
-      var dateObject = $("#dateID").datepicker("getDate");
-      var dateString = $.datepicker.formatDate("dd-mm-yy", dateObject);
       var date = $("#dateID").datepicker({
-
         onSelect: function(selected) {
           var selectedDate = $(this).datepicker('getDate');
-          var dateString = $.datepicker.formatDate("dd-mm-yy", selectedDate);
+          var dateString = $.datepicker.formatDate("mm/dd/yy", selectedDate);
           $("#dates_hidden").val(dateString);
           $("#dateID").val('Dates');
-
-          console.log('date was choosen:' + dateString);
-
+          // console.log('date was choosen:' + dateString);
           var idCard_Hidden = $('#idCard_Hidden').val();
           var data = {
             'id_card': idCard_Hidden,
@@ -268,7 +312,6 @@
             success: function(response) {
               // console.log(response.card);
               fecth_card(idCard_Hidden);
-
             }
           });
         }
@@ -304,6 +347,12 @@
       }
 
       function fetchTasks() {
+        // alert('a');
+        // const d = new Date();
+        // var dayNow = d.getDate();
+        // const str = '30-11-2022';
+        // const date = new Date(str);
+        // console.log(date);
         $.ajax({
           type: "GET",
           url: "/fetch-tasks",
@@ -315,7 +364,7 @@
               const tasks = $('.taskslist');
               tasks.append('<div class="col-sm-4">\
                             <div class="card card-block">\
-                              <div class="card-body" style="background-color: #EBECF0;">\
+                              <div class="card-body" style="background-color: #EBECF0;padding: 8px;">\
                                 <h5>' + task.title + '\
                                 <div class="dropdown float-right">\
                                   <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>\
@@ -339,7 +388,7 @@
                                       <input type="text" name="title" id="title_' + task._id + '" class="list-card-composer-textarea js-card-title form-control title_card" rows="1" dir="auto" placeholder="Enter a title for this card…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></input>\
                                     </div>\
                                     <div class="cc-controls">\
-                                      <button type="submit" id="addCard_' + task._id + '" value="' + task._id + '" class="btn btn-primary addCard">Add Card</button>\
+                                      <button type="submit" style="margin-top:10px" id="addCard_' + task._id + '" value="' + task._id + '" class="btn btn-primary addCard">Add Card</button>\
                                     </div>\
                                   </div>\
                                 </form>\
@@ -355,7 +404,7 @@
       // fetch card
       function fetchCard(card) {
         var cards = $('#card_' + card.task_id);
-        console.log(card.title);
+        // console.log(card.title);
         cards.append('<input type="hidden" value="' + card._id + '" id="titleCard_' + card._id + '">\
                             <button class="btn btn-card text-left showCard showCard_' + card._id + '" id="' + card._id + '">\
                               <span id="title-card-' + card._id + '" class="titleCard_' + card._id + '">' + card.title + '</span>\
@@ -365,10 +414,8 @@
                                 </p>\
                             </button>\
               ');
-        if (card.dates != 0) {
-          $('lable#dates_card_' + card._id).removeAttr('style');
-          $('lable#dates_card_' + card._id).text(card.dates);
-        }
+        status_date(card);
+
       }
       // fetch checklist
       function fetch_checklist(card_id) {
@@ -403,7 +450,7 @@
                                   </div>\
                                 </div>\
                                 <div class="col-auto my-1">\
-                                  <button type="submit" id="' + element._id + '" class="btn btn-danger remove_checklist">X</button>\
+                                  <button type="submit" id="' + element._id + '" class="btn btn-danger remove_checklist" style="padding:0 6px"><i class="fa fa-archive" aria-hidden="true"></i></button>\
                                 </div>\
                               </div>');
                 if (element.status == "true") {
@@ -536,7 +583,7 @@
             $('#title_card').val(response.card.title);
             $('#description_card').val(response.card.description);
             $('#title-task-in-modal-detail').text(response.card.task.title);
-
+            status_date(response.card);
             if (response.card.dates != 0) {
               $('#dates_card_' + response.card._id).removeAttr('style');
               $('#dates_card_' + response.card._id).text(response.card.dates);
@@ -552,10 +599,10 @@
               if (response.card.status == "false") {
                 $('#status-card-detail-modal').prop('checked', false);
                 $('#status-card-detail-modal').attr('name', '');
-                // console.log('status : false');
               }
             } else {
               $('#due-to-card-form').attr('style', 'display: none');
+              $('lable#dates_card_' + response.card._id).attr('style', 'display: none');
             }
           }
         })
