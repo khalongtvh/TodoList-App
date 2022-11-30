@@ -85,174 +85,235 @@
     <div class="modal-dialog  modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-body cardDetail">
-          <!-- title card -->
           <div class="row">
-            <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
-              <i class="fa fa-credit-card" aria-hidden="true"></i>
-            </div>
-            <div class="col-sm-11">
-              <div class="form-group">
-                <input type="text" name="title_card" id="title_card" class="form-control font-title font-20" style="border:none; padding-left: 0;">
-                <input type="hidden" id="idCard_Hidden">
-                <p>in list <a href="#" id="title-task-in-modal-detail"></a></p>
+            <div class="col-sm-9">
+              <!-- title card -->
+              <div class="row">
+                <!-- icon title -->
+                <div class="col-sm-1" style="padding-top: 10px;">
+                  <i class="fa fa-credit-card" aria-hidden="true"></i>
+                </div>
+                <!-- end icon title -->
+                <!-- main card -->
+                <div class="col-sm-11">
+                  <div class="form-group">
+                    <input type="text" name="title_card" id="title_card" class="form-control font-title font-20" style="border:none; padding-left: 0;">
+                    <input type="hidden" id="idCard_Hidden">
+                    <p>in list <a href="#" id="title-task-in-modal-detail"></a></p>
+                  </div>
+                  <!-- due to -->
+                  <div class="form-group" id="due-to-card-form" style="display: none;">
+                    <span>Due to</span>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="status-card-detail-modal" style="margin-top:12px">
+                      <label class="form-check-label btn btn-light " for="status-card-detail-modal" id="dates-card-detail-modal"></label>
+                      <label class="form-check-label btn btn-danger" id="remove-date-card">X</label>
+                    </div>
+                  </div>
+                  <!-- end due to -->
+                </div>
+                <!-- end main card -->
               </div>
-            </div>
-          </div>
-          <!-- main -->
-          <div class="row">
-            <!-- left icon -->
-            <div class="col-sm-1 " style="padding:6px 0px 0px 52px">
-              <i class="fa fa-tasks" aria-hidden="true"></i>
-            </div>
-            <!-- end left icon -->
+              <!-- end title card -->
 
-            <!-- description -->
-            <div class="col-sm-8">
-              <div class="form-group">
-                <!-- <form action="{{route('tasks.store')}}" method="post"> -->
-                <!-- @csrf -->
-                <p type="text" class="form-control font-title font-16">Description</p>
-                <!-- <input type="hidden" id="idCard_Hidden"> -->
-                <!-- <input type="text" name="title_card" id="title_card" class="form-control" style="border:none; padding-left: 0;"> -->
-                <textarea name="description_card" id="description_card" class="form-control" style="margin-bottom:10px" dir="auto" placeholder="Add a more detailed description…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
-                <button class="btn btn-success" id="addDescription">Save</button>
-                <!-- <button class=" btn btn-light">Cancel</button> -->
-                <!-- </form> -->
+              <!-- description card -->
+              <div class="row">
+                <!-- icon description -->
+                <div class="col-sm-1" style="padding-top: 10px;">
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
+                </div>
+                <!-- end icon description -->
+                <!-- main card -->
+                <div class="col-sm-11">
+                  <div class="form-group">
+                    <p type="text" class="form-control font-title font-16">Description</p>
+                    <textarea name="description_card" id="description_card" class="form-control" style="margin-bottom:10px" dir="auto" placeholder="Add a more detailed description…" data-autosize="true" style="width:100%; overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"></textarea>
+                    <button class="btn btn-success" id="addDescription">Save</button>
+                  </div>
+                </div>
+                <!-- end main card -->
               </div>
-            </div>
-            <!-- end description -->
+              <!-- end description card -->
 
-            <!-- right menu -->
+              <!-- checklist card -->
+              <div class="row">
+                <!-- icon checklist -->
+                <div class="col-sm-1 icon-checklist" style="padding-top: 10px;">
+                </div>
+                <!-- end icon checklist -->
+                <!-- main card -->
+                <div class="col-sm-11">
+                  <div class="form-group checklist-group">
+                  </div>
+                </div>
+                <!-- end main card -->
+              </div>
+              <!-- end checklist card -->
+            </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <p>Add to card</p>
-                <input type="button" class="form-control btn btn-light" id="add-checklist-menu" style = "margin-bottom:10px"value="Checklist">
+                <input type="button" class="form-control btn btn-light" id="add-checklist-menu" style="margin-bottom:10px" value="Checklist">
                 <!-- <i class="fa fa-check-square-o" aria-hidden="true"></i>  -->
 
                 <!-- </a> -->
                 <input type="button" value="Dates" id="dateID" class="btn btn-light form-control">
                 <input type="hidden" id="dates_hidden">
               </div>
-            </div>
-
-            <!-- end right menu -->
-          </div>
-          <div class="row">
-            <!-- left icon -->
-            <div class="col-sm-1 icon-checklist" style="padding:6px 0px 0px 52px">
-
-            </div>
-            <!-- end left icon -->
-
-            <!-- description -->
-            <div class="col-sm-8">
-              <div class="form-group checklist-group">
-              </div>
-            </div>
-            <div class="col-sm-3">
-
               <div class="form-group">
                 <p>Action</p>
                 <a href="#" class="button-link form-control btn btn-light" id="remove-card-menu"><i class="fa fa-archive" aria-hidden="true"></i> <span>Remove</span></a>
               </div>
-              <!-- end description -->
             </div>
-
+            <!-- detailed card -->
           </div>
-          <!-- end main -->
         </div>
       </div>
     </div>
   </div>
-</div>
-<!-- end detail card -->
+  <!-- end detail card -->
 
-<!-- modal check list -->
-<div class="modal fade checklistModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Check List</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="title_checklist" class="col-form-label">Title:</label>
-          <input autofocus="true" class="form-control" name="title_checklist" id="title_checklist" placeholder="checklist">
+  <!-- modal check list -->
+  <div class="modal fade checklistModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Check List</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <button type="button" class="btn btn-primary" id="add-checklist">Add</button>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="title_checklist" class="col-form-label">Title:</label>
+            <input autofocus="true" class="form-control" name="title_checklist" id="title_checklist" placeholder="checklist">
+          </div>
+          <button type="button" class="btn btn-primary" id="add-checklist">Add</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- end modal check list -->
-@endsection
+  <!-- end modal check list -->
+  @endsection
 
-@section('scripts')
-<!-- show detailed Card -->
-<script>
-  $(document).ready(function() {
-    fetchTasks();
-    var dateObject = $("#dateID").datepicker("getDate");
-    var dateString = $.datepicker.formatDate("dd-mm-yy", dateObject);
-    console.log(dateString);
+  @section('scripts')
+  <!-- show detailed Card -->
+  <script>
+    $(document).ready(function() {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      fetchTasks();
 
-    var date = $("#dateID").datepicker({
-      onSelect: function(selected) {
-        var selectedDate = $(this).datepicker('getDate');
-        var dateString = $.datepicker.formatDate("dd-mm-yy", selectedDate);
-        $("#dates_hidden").val(dateString);
-        $("#dateID").val('Dates');
-        console.log(dateString);
-      }
-    });
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    // add new card
-    $(document).on('click', '.addCard', function() {
-      // alert('Add');
-      var idTask = $(this).val();
-      var new_title = $('#title_' + idTask + '').val();
-      data = {
-          'title': new_title,
-          'idTask': idTask
-        },
+      // remove dates card
+      $(document).on('click', '#remove-date-card', function() {
+        var idCard = $('#idCard_Hidden').val();
+        data = {
+          'id_card': idCard,
+          'dates': 0
+        };
         $.ajax({
-          type: 'POST',
+          type: 'PUT',
           data: data,
           dataType: "json",
-          url: "/cards/",
+          url: "/cards/" + idCard,
           success: function(response) {
-            console.log(response.card);
-            fetchCard(response.card);
-            $('#title_' + idTask + '').val('');
+            fecth_card(idCard);
           }
         });
-      // alert(new_title);
-    })
-    // fetch tasks
-    function fetchTask(task) {
-      $.each(task.cards, function(key, card) {
-        fetchCard(card);
       });
-    }
+      $(document).on('change', '#status-card-detail-modal', function() {
+        // console.log($(this).is(':checked'));
+        var idCard_Hidden = $('#idCard_Hidden').val();
+        var data = {
+          'status': $(this).is(':checked'),
+          'id_card': idCard_Hidden
+        };
+        $.ajax({
+          type: 'PUT',
+          data: data,
+          dataType: "json",
+          url: "/cards/" + idCard_Hidden,
+          success: function(response) {
+            fecth_card(idCard_Hidden);
+            console.log('status update ' + response.card.status);
+          }
+        });
+      });
 
-    function fetchTasks() {
-      $.ajax({
-        type: "GET",
-        url: "/fetch-tasks",
-        dataType: "json",
-        success: function(response) {
-          // console.log(response.data);
-          var tasks = response.data;
-          $.each(tasks, function(key, task) {
-            const tasks = $('.taskslist');
-            tasks.append('<div class="col-sm-4">\
+      var dateObject = $("#dateID").datepicker("getDate");
+      var dateString = $.datepicker.formatDate("dd-mm-yy", dateObject);
+      var date = $("#dateID").datepicker({
+
+        onSelect: function(selected) {
+          var selectedDate = $(this).datepicker('getDate');
+          var dateString = $.datepicker.formatDate("dd-mm-yy", selectedDate);
+          $("#dates_hidden").val(dateString);
+          $("#dateID").val('Dates');
+
+          console.log('date was choosen:' + dateString);
+
+          var idCard_Hidden = $('#idCard_Hidden').val();
+          var data = {
+            'id_card': idCard_Hidden,
+            'dates': dateString
+          };
+          $.ajax({
+            type: 'PUT',
+            data: data,
+            dataType: "json",
+            url: "/cards/" + idCard_Hidden,
+            success: function(response) {
+              // console.log(response.card);
+              fecth_card(idCard_Hidden);
+
+            }
+          });
+        }
+      });
+
+      // add new card
+      $(document).on('click', '.addCard', function() {
+        // alert('Add');
+        var idTask = $(this).val();
+        var new_title = $('#title_' + idTask + '').val();
+        data = {
+            'title': new_title,
+            'idTask': idTask
+          },
+          $.ajax({
+            type: 'POST',
+            data: data,
+            dataType: "json",
+            url: "/cards/",
+            success: function(response) {
+              console.log("add new card:\n" + response.card);
+              fetchCard(response.card);
+              $('#title_' + idTask + '').val('');
+            }
+          });
+        // alert(new_title);
+      })
+      // fetch tasks
+      function fetchTask(task) {
+        $.each(task.cards, function(key, card) {
+          fetchCard(card);
+        });
+      }
+
+      function fetchTasks() {
+        $.ajax({
+          type: "GET",
+          url: "/fetch-tasks",
+          dataType: "json",
+          success: function(response) {
+            // console.log(response.data);
+            var tasks = response.data;
+            $.each(tasks, function(key, task) {
+              const tasks = $('.taskslist');
+              tasks.append('<div class="col-sm-4">\
                             <div class="card card-block">\
                               <div class="card-body" style="background-color: #EBECF0;">\
                                 <h5>' + task.title + '\
@@ -285,56 +346,52 @@
                               </div>\
                             </div>\
                           </div>');
-            fetchTask(task);
-          });
-          $('.taskslist').append('<button class="btn btn-outline-light addList" style="width: 40px;height: 40px; border-radius: 50px">+</button>');
-        }
-      })
-    };
-    // fetch card
-    function fetchCard(card) {
-      var cards = $('#card_' + card.task_id);
-      console.log(card.title);
-      cards.append('<input type="hidden" value="' + card._id + '" id="titleCard_' + card._id + '">\
+              fetchTask(task);
+            });
+            $('.taskslist').append('<button class="btn btn-outline-light addList" style="width: 40px;height: 40px; border-radius: 50px">+</button>');
+          }
+        })
+      };
+      // fetch card
+      function fetchCard(card) {
+        var cards = $('#card_' + card.task_id);
+        console.log(card.title);
+        cards.append('<input type="hidden" value="' + card._id + '" id="titleCard_' + card._id + '">\
                             <button class="btn btn-card text-left showCard showCard_' + card._id + '" id="' + card._id + '">\
                               <span id="title-card-' + card._id + '" class="titleCard_' + card._id + '">' + card.title + '</span>\
                                 <p style="margin-bottom:0">\
-                                  <lable id="dates_card" style="display:none" class="btn btn-danger"></lable>\
+                                  <lable id="dates_card_' + card._id + '" style="display:none" class="btn btn-danger"></lable>\
                                   <lable id="checklist_card" style="display:none"></lable>\
                                 </p>\
                             </button>\
               ');
-      if (card.dates != 0) {
-        $('lable#dates_card').removeAttr('style');
-        $('lable#dates_card').text(card.dates);
+        if (card.dates != 0) {
+          $('lable#dates_card_' + card._id).removeAttr('style');
+          $('lable#dates_card_' + card._id).text(card.dates);
+        }
       }
-      // if (card.dates != 0) {
-      //   $('lable#dates_card').removeAttr('style');
-      //   $('lable#dates_card').text(card.dates);
-      // }
-    }
-    // fetch checklist
-    function fetch_checklist(card_id) {
-      // alert(task_id);
-      $.ajax({
-        type: "GET",
-        url: "/checklist",
-        dataType: "json",
-        data: {
-          'card_id': card_id
-        },
-        success: function(response) {
-          // console.log(response.data);
-          var group = $('div.checklist-group');
-          group.html("");
-          $('.icon-checklist').html("");
-          if (response.data != '') {
-            group.append('<p type="text" class="form-control font-title font-16">Checklist</p>');
-            $('.icon-checklist').append('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
-            response.data.forEach(element => {
-              console.log(element._id);
-              // group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">' + element.title + '</p>');
-              group.append('  <div class="form-row align-items-center">\
+      // fetch checklist
+      function fetch_checklist(card_id) {
+        // alert(task_id);
+        $.ajax({
+          type: "GET",
+          url: "/checklist",
+          dataType: "json",
+          data: {
+            'card_id': card_id
+          },
+          success: function(response) {
+            // console.log(response.data);
+            var group = $('div.checklist-group');
+            group.html("");
+            $('.icon-checklist').html("");
+            if (response.data != '') {
+              group.append('<p type="text" class="form-control font-title font-16">Checklist</p>');
+              $('.icon-checklist').append('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
+              response.data.forEach(element => {
+                console.log(element._id);
+                // group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">' + element.title + '</p>');
+                group.append('  <div class="form-row align-items-center">\
                                 <div class="col-auto my-1">\
                                   <div class="form-check">\
                                     <input class="form-check-input status_checklist status_checklist_' + element._id + '" type="checkbox" id="' + element._id + '">\
@@ -349,237 +406,259 @@
                                   <button type="submit" id="' + element._id + '" class="btn btn-danger remove_checklist">X</button>\
                                 </div>\
                               </div>');
-              if (element.status == "true") {
-                $('.status_checklist_' + element._id + '').attr('checked', 'checked');
-                $('.title_checklist_' + element._id + '').attr('style', 'color:green; text-decoration: line-through; text-decoration-color: red');
-              }
-            });
+                if (element.status == "true") {
+                  $('.status_checklist_' + element._id + '').attr('checked', 'checked');
+                  $('.title_checklist_' + element._id + '').attr('style', 'color:green; text-decoration: line-through; text-decoration-color: red');
+                }
+              });
+            }
           }
+        })
+      }
+
+      // update status checklist
+      $(document).on('change', '.status_checklist', function() {
+        var id = $(this).attr('id');
+        // console.log(id);
+        var status = $(this).is(':checked');
+        data = {
+            'id': id,
+            'status': status
+          },
+          // console.log(data);
+          $.ajax({
+            type: 'PUT',
+            data: data,
+            dataType: "json",
+            url: "/checklist/" + id,
+            success: function(response) {
+              // console.log("update status checklist " + response.data.title + " " + response.data.status);
+              fetch_checklist(response.data.card_id);
+            }
+          });
+      });
+
+      // update title checklist
+      $(document).on('keypress', '.title_checklist_carModal', function(event) {
+        if (event.key === "Enter") {
+          data = {
+            'id': $(this).attr('id'),
+            'title': $(this).val()
+          };
+          $.ajax({
+            type: 'PUT',
+            data: data,
+            dataType: "json",
+            url: "/checklist/" + $(this).attr('id'),
+            success: function(response) {
+              console.log("update tilte checklist" + response.data.title);
+              fetch_checklist(response.data.card_id);
+            }
+          });
         }
       })
-    }
 
-    // update status checklist
-    $(document).on('change', '.status_checklist', function() {
-      var id = $(this).attr('id');
-      // console.log(id);
-      var status = $(this).is(':checked');
-      data = {
-          'id': id,
-          'status': status
-        },
-        // console.log(data);
-        $.ajax({
-          type: 'PUT',
-          data: data,
-          dataType: "json",
-          url: "/checklist/" + id,
-          success: function(response) {
-            console.log("update status checklist " + response.data.title + " " + response.data.status);
-            fetch_checklist(response.data.card_id);
-          }
-        });
-    });
-
-    // update title checklist
-    $(document).on('keypress', '.title_checklist_carModal', function(event) {
-      if (event.key === "Enter") {
+      // remove checklist
+      $(document).on('click', '.remove_checklist', function() {
+        var id_checklist = $(this).attr('id');
         data = {
-          'id': $(this).attr('id'),
-          'title': $(this).val()
+          'id': id_checklist,
         };
         $.ajax({
-          type: 'PUT',
-          data: data,
-          dataType: "json",
-          url: "/checklist/" + $(this).attr('id'),
+          type: 'DELETE',
+          url: "checklist/" + id_checklist,
           success: function(response) {
-            console.log("update tilte checklist" + response.data.title);
-            fetch_checklist(response.data.card_id);
+            console.log(response.data);
+            var id_card = response.data.card_id;
+            fetch_checklist(id_card);
+          },
+        })
+      });
+
+      // add new checklist
+      $(document).on('click', '#add-checklist', function() {
+        var title = document.getElementById('title_checklist').value;
+        var id_card = document.getElementById('idCard_Hidden').value;
+        // alert(id_card);
+        data = {
+          'title': title,
+          'id_card': id_card
+        };
+        $.ajax({
+          type: 'POST',
+          url: "/checklist/",
+          dataType: 'json',
+          data: data,
+          success: function(response) {
+            console.log(response.checklist);
+            $('.checklistModal').modal('hide');
+            fetch_checklist(id_card);
+          },
+        })
+      });
+
+      // show modal add checklist
+      $(document).on('click', '#add-checklist-menu', function() {
+        $('.checklistModal').modal('show');
+        // $('.checklistModal').on('show.bs.modal', function() {
+        //   $('#title_checklist').trigger('focus')
+        // })
+      });
+      // remove card 
+      $(document).on('click', '#remove-card-menu', function() {
+        // alert('a');
+        var id_card = document.getElementById('idCard_Hidden').value;
+        $.ajax({
+          type: 'DELETE',
+          url: "cards/" + id_card,
+          success: function(response) {
+            // console.log(response.data.task_id);
+            // console.log(response.task.title);
+            $('#card_' + response.data.task_id).html('');
+            fetchTask(response.task);
+            $('.modal').modal('hide');
+          },
+        })
+
+      });
+
+      // fetch card data in detail modal
+      function fecth_card(task_id) {
+        // alert(task_id);
+        $.ajax({
+          type: "GET",
+          url: "/cards",
+          dataType: "json",
+          data: {
+            'task_id': task_id
+          },
+          success: function(response) {
+            $('#title_card').val(response.card.title);
+            $('#description_card').val(response.card.description);
+            $('#title-task-in-modal-detail').text(response.card.task.title);
+
+            if (response.card.dates != 0) {
+              $('#dates_card_' + response.card._id).removeAttr('style');
+              $('#dates_card_' + response.card._id).text(response.card.dates);
+              $('#due-to-card-form').removeAttr('style');
+              $('#dates-card-detail-modal').text(response.card.dates);
+              // console.log(response.card.status);
+              if (response.card.status == "true") {
+                $('#status-card-detail-modal').attr('name', 'checkbox-status-card-' + response.card._id);
+                $('#dates-card-detail-modal').attr('name', 'status-card-' + response.card._id);
+                $("input[name='checkbox-status-card-" + response.card._id + "']").prop('checked', true);
+                $("label[name='status-card-" + response.card._id + "']").append('<span class="completed">completed</span>');
+              }
+              if (response.card.status == "false") {
+                $('#status-card-detail-modal').prop('checked', false);
+                $('#status-card-detail-modal').attr('name', '');
+                // console.log('status : false');
+              }
+            } else {
+              $('#due-to-card-form').attr('style', 'display: none');
+            }
           }
-        });
+        })
       }
-    })
-
-    // remove checklist
-    $(document).on('click', '.remove_checklist', function() {
-      var id_checklist = $(this).attr('id');
-      data = {
-        'id': id_checklist,
-      };
-      $.ajax({
-        type: 'DELETE',
-        url: "checklist/" + id_checklist,
-        success: function(response) {
-          console.log(response.data);
-          var id_card = response.data.card_id;
-          fetch_checklist(id_card);
-        },
-      })
-    });
-
-    // add new checklist
-    $(document).on('click', '#add-checklist', function() {
-      var title = document.getElementById('title_checklist').value;
-      var id_card = document.getElementById('idCard_Hidden').value;
-      // alert(id_card);
-      data = {
-        'title': title,
-        'id_card': id_card
-      };
-      $.ajax({
-        type: 'POST',
-        url: "/checklist/",
-        dataType: 'json',
-        data: data,
-        success: function(response) {
-          console.log(response.checklist);
-          $('.checklistModal').modal('hide');
-          fetch_checklist(id_card);
-        },
-      })
-    });
-
-    // show modal add checklist
-    $(document).on('click', '#add-checklist-menu', function() {
-      $('.checklistModal').modal('show');
-      // $('.checklistModal').on('show.bs.modal', function() {
-      //   $('#title_checklist').trigger('focus')
-      // })
-    });
-    // remove card 
-    $(document).on('click', '#remove-card-menu', function() {
-      // alert('a');
-      var id_card = document.getElementById('idCard_Hidden').value;
-      $.ajax({
-        type: 'DELETE',
-        url: "cards/" + id_card,
-        success: function(response) {
-          // console.log(response.data.task_id);
-          // console.log(response.task.title);
-          $('#card_' + response.data.task_id).html('');
-          fetchTask(response.task);
-          $('.modal').modal('hide');
-        },
-      })
-
-    });
-    // fetch card data
-    function fecth_card(task_id) {
-      // alert(task_id);
-      $.ajax({
-        type: "GET",
-        url: "/cards",
-        dataType: "json",
-        data: {
-          'task_id': task_id
-        },
-        success: function(response) {
-          console.log(response.card);
-          $('#title_card').val(response.card.title);
-          $('#description_card').val(response.card.description);
-          $('#title-task-in-modal-detail').text(response.card.task.title);
-          console.log($('#title-task-in-modal-detail').text());
+      // update title card in modal
+      const input = document.getElementById('title_card');
+      input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          const idCard_Hidden = $('#idCard_Hidden').val();
+          const data = {
+            'title': input.value,
+            'id_card': idCard_Hidden
+          };
+          event.preventDefault();
+          $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          $.ajax({
+            type: 'PUT',
+            data: data,
+            dataType: "json",
+            url: "/cards/" + idCard_Hidden,
+            success: function(response) {
+              // console.log(response.card._id);
+              input.blur();
+              $('span#title-card-' + response.card._id).text(response.card.title);
+            }
+          });
         }
-      })
-    }
-    // update title card in modal
-    const input = document.getElementById('title_card');
-    input.addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        const idCard_Hidden = $('#idCard_Hidden').val();
-        const data = {
-          'title': input.value,
+      });
+
+      // show detailed card
+      $(document).on('click', '.showCard', function() {
+        var id = $(this).attr('id');
+        title = document.getElementById('titleCard_' + id);
+        $('#cardDetail').modal('show');
+        var idCard_Hidden = document.getElementById("idCard_Hidden");
+        idCard_Hidden.value = id;
+        fecth_card(id);
+        fetch_checklist(id);
+      });
+      // update description card
+      $(document).on('click', '#addDescription', function() {
+        var idCard_Hidden = $('#idCard_Hidden').val();
+        var data = {
+          'description': document.getElementById('description_card').value,
           'id_card': idCard_Hidden
         };
-        event.preventDefault();
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
         $.ajax({
           type: 'PUT',
           data: data,
           dataType: "json",
           url: "/cards/" + idCard_Hidden,
           success: function(response) {
-            // console.log(response.card._id);
-            input.blur();
-            $('span#title-card-' + response.card._id).text(response.card.title);
+            // console.log(response.data.status);
+            fecth_card(idCard_Hidden);
           }
         });
-      }
+      });
     });
-    // show detailed card
-    $(document).on('click', '.showCard', function() {
-      var id = $(this).attr('id');
-      title = document.getElementById('titleCard_' + id);
-      $('#cardDetail').modal('show');
-      var idCard_Hidden = document.getElementById("idCard_Hidden");
-      idCard_Hidden.value = id;
-      fecth_card(id);
-      fetch_checklist(id);
+  </script>
+  <!-- end show detailed Card -->
+  <!-- update title card modal -->
+  <script>
+
+  </script>
+  <!-- end update title card -->
+
+  <script>
+    $(document).on('click', '.addList', function() {
+      var id = $(this).val();
+      $('#addModal').modal('show');
     });
-    // update description card
-    $(document).on('click', '#addDescription', function() {
-      var idCard_Hidden = $('#idCard_Hidden').val();
-      var data = {
-        'description': document.getElementById('description_card').value,
-        'id_card': idCard_Hidden
-      };
+  </script>
+  <!-- edit modal -->
+  <script>
+    $(document).on('click', '.editBtn', function() {
+      var idTask = $(this).val();
+      // alert(idTask);
+      $('#editModal').modal('show');
       $.ajax({
-        type: 'PUT',
-        data: data,
-        dataType: "json",
-        url: "/cards/" + idCard_Hidden,
+        type: 'GET',
+        url: "/edit-task/" + idTask,
         success: function(response) {
-          fecth_card(idCard_Hidden);
+          console.log(response.task.title);
+          $('#idTask').val(idTask);
+          $('#title').val(response.task.title);
+          $('#``').val(response.task.description);
+          $('#deadline').val(response.task.deadline);
         }
       });
     });
-  });
-</script>
-<!-- end show detailed Card -->
-<!-- update title card modal -->
-<script>
-
-</script>
-<!-- end update title card -->
-
-<script>
-  $(document).on('click', '.addList', function() {
-    var id = $(this).val();
-    $('#addModal').modal('show');
-  });
-</script>
-<!-- edit modal -->
-<script>
-  $(document).on('click', '.editBtn', function() {
-    var idTask = $(this).val();
-    // alert(idTask);
-    $('#editModal').modal('show');
-    $.ajax({
-      type: 'GET',
-      url: "/edit-task/" + idTask,
-      success: function(response) {
-        console.log(response.task.title);
-        $('#idTask').val(idTask);
-        $('#title').val(response.task.title);
-        $('#``').val(response.task.description);
-        $('#deadline').val(response.task.deadline);
-      }
+  </script>
+  <!--end edit modal -->
+  <!-- close modal -->
+  <script>
+    $(document).on('click', '.closeModal', function() {
+      var id = $(this).val();
+      // alert(id);
+      // $('#addModal').modal('hide');
+      $('.modal').modal('hide')
     });
-  });
-</script>
-<!--end edit modal -->
-<!-- close modal -->
-<script>
-  $(document).on('click', '.closeModal', function() {
-    var id = $(this).val();
-    // alert(id);
-    // $('#addModal').modal('hide');
-    $('.modal').modal('hide')
-  });
-</script>
-@endsection
+  </script>
+  @endsection

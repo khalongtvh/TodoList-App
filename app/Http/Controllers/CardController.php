@@ -66,7 +66,7 @@ class CardController extends Controller
       $card->title = $request->title;
       $card->task_id = $request->idTask;
       $card->dates = 0;
-      $card->status = 0;
+      $card->status = "false";
       $card->background = $request->background;
       $card->description = "";
       $card->save();
@@ -117,17 +117,29 @@ class CardController extends Controller
         'title' => $request['title'],
       ]);
     }
+    
     if ($request['description'] != null) {
       $card->update([
         'description' => $request['description'],
       ]);
     }
+
+    if ($request['dates'] != null) {
+      $card->update([
+        'dates' => $request['dates'],
+      ]);
+    }
+
+    if ($request['status'] != null) {
+      $card->update([
+        'status' => $request['status'],
+      ]);
+    }
+
     return response()->json([
       'status' => '200',
       'card' => $card
     ]);
-    // return redirect()->back()->with('status', 'Update Successful');
-    // dd($card->title);
   }
 
   /**
