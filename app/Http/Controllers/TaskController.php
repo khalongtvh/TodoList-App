@@ -114,30 +114,31 @@ class TaskController extends Controller
   public function destroy(Task $task)
   {
     //
-    // dd($task);
+    // dd($task->title);
     $task->delete();
-    return redirect()->back()->json([
+    return response()->json([
       'status' => 'Create Account Success.',
     ]);
   }
 
-  public function ajax_search(Request $request){
+  public function ajax_search(Request $request)
+  {
     $output = '';
-    if($request->ajax()){
-      $cards = Card::where('title', 'LIKE', '%'.$request->search.'%')->get();
-      if($cards){
-        foreach($cards as $card){
-            $output .=' 
-                        <div class = "list-group tasks_list">      
-                <button class="btn btn-card text-left "">
-                              <span >' .$card->title. '</span>
-                </button>
-                </div> 
-             ';
-        } 
-        return response()->json($output);
+    if ($request->ajax()) {
+      $cards = Card::where('title', 'LIKE', '%' . $request->search . '%')->get();
+      if (count($cards) != 0) {
+        foreach ($cards as $card) {
+          $output .= '<div class = "list-group tasks_list showCard " id = "' . $card->id . '">      
+                          <p class="btn btn-card text-left">
+                            <span >' . $card->title . '</span>
+                            <input type="hidden" value="' . $card->id . '"/>
+                          </p>
+                        </div> ';
+        }
+      } else {
+        $output = ('Not Found!');
       }
     }
-      return view('tasks.index');
+    return response()->json($output);
   }
 }

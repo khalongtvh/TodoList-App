@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="shortcut icon" type="image/x-icon" href="https://cdn.icon-icons.com/icons2/3041/PNG/512/trello_logo_icon_189227.png" />
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -46,17 +46,15 @@
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0 form-search">
       <div class="input-group">
-        <input name="search" class="form-control input-search-ajax" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+        <input name="search" class="form-control input-search-ajax" type="text" placeholder="Search for card..." aria-label="Search for card..." aria-describedby="btnNavbarSearch" />
         <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
 
       </div>
       <div class="search-ajax-result">
         <div class="search-item-card">
           <div class="media-body">
-
           </div>
         </div>
-
       </div>
     </form>
 

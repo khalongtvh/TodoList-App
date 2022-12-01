@@ -384,19 +384,14 @@
       }
 
       function fetchTasks() {
-        // alert('a');
-        // const d = new Date();
-        // var dayNow = d.getDate();
-        // const str = '30-11-2022';
-        // const date = new Date(str);
-        // console.log(date);
         $.ajax({
           type: "GET",
           url: "/fetch-tasks",
           dataType: "json",
           success: function(response) {
-            // console.log(response.data);
             var tasks = response.data;
+            // tasks.html('');
+            $('.taskslist').html('');
             $.each(tasks, function(key, task) {
               const tasks = $('.taskslist');
               tasks.append('<div class="col-sm-4">\
@@ -407,11 +402,7 @@
                                   <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>\
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\
                                     <button type="button" value="' + task._id + '" class="editBtn dropdown-item">Edit</button>\
-                                    <form action="{{route("tasks.destroy",[' + task + '])}}" method="post">\
-                                      @csrf\
-                                      @method("DELETE")\
-                                      <button class="dropdown-item">Delete</button>\
-                                    </form>\
+                                    <button class="dropdown-item" id = "remove-task" value = "' + task._id + '">Delete</button>\
                                   </div>\
                                 </div>\
                                 </h5>\
@@ -459,6 +450,26 @@
         // console.log('1');
         status_date(card);
       }
+
+      // remove task remove-task
+      $(document).on('click', '#remove-task', function() {
+        var id = ($(this).val());
+        data = {
+          'task': id
+        };
+        $.ajax({
+          type: 'DELETE',
+          data: data,
+          dataType: "json",
+          url: 'tasks/' + id,
+          success: function(response) {
+            // console.log("update status checklist " + response.data.title + " " + response.data.status);
+            // fetch_checklist(response.data.card_id);
+            fetchTasks();
+          }
+        });
+      });
+
       // fetch checklist
       function fetch_checklist(card_id) {
         // alert(task_id);
@@ -601,7 +612,7 @@
           type: 'DELETE',
           url: "cards/" + id_card,
           success: function(response) {
-            // console.log(response.data.task_id);
+            console.log(response.data);
             // console.log(response.task.title);
             $('#card_' + response.data.task_id).html('');
             fetchTask(response.task);
