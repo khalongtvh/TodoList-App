@@ -26,7 +26,8 @@ use App\Models\Author;
 // });
 // Route::get('/', [AuthorController::class, 'index'])->name('home');
 
-Route::get('/', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
+// root
+// Route::get('/', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
   Route::get('home', [HomeController::class, 'index'])->name('home');
@@ -47,7 +48,9 @@ Route::put('/update-task', [TaskController::class, 'update']);
 Route::get('/ajax-search-task', [TaskController::class, 'ajax_search'])->name('tasks.ajaxsearch');
 
 Route::resource('customers', CustomerController::class);
+
 Route::get('/login', [CustomerController::class, 'index']);
+Route::get('/', [CustomerController::class, 'index']);
 Route::get('/register', [CustomerController::class, 'register']);
 Route::post('/', [CustomerController::class, 'login']);
 
