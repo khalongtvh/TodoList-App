@@ -265,7 +265,7 @@
             if (daysdifference(card.dates) < 0) {
               // due soon
               $('#dates_card_' + card._id).attr('class', 'btn btn-danger');
-              $('.notification_ul').append('<li class="starbucks success ">\
+              $('.notification_ul').append('<li class="starbucks duesoon ">\
                                               <div class="notify_data">\
                                                 <div class="title">' + card.title + '</div>\
                                                 <div class="sub_title">' + card.description + '\
@@ -278,7 +278,7 @@
             } else {
               // overdue
               $('#dates_card_' + card._id).attr('class', 'btn btn-warning');
-              $('.notification_ul').append('<li class="starbucks failed">\
+              $('.notification_ul').append('<li class="starbucks overdue">\
                                               <div class="notify_data">\
                                               <div class="title">' + card.title + '</div>\
                                               <div class="sub_title">' + card.description + '\
@@ -634,13 +634,22 @@
               // console.log(response.card.status);
               if (response.card.status == "true") {
                 $('#status-card-detail-modal').attr('name', 'checkbox-status-card-' + response.card._id);
-                $('#dates-card-detail-modal').attr('name', 'status-card-' + response.card._id);
+                $('#dates-card-detail-modal').attr('name', 'completed-card-' + response.card._id);
                 $("input[name='checkbox-status-card-" + response.card._id + "']").prop('checked', true);
-                $("label[name='status-card-" + response.card._id + "']").append('<span class="completed">completed</span>');
+                $("label[name='completed-card-" + response.card._id + "']").append('<span class="completed">completed</span>');
               }
               if (response.card.status == "false") {
                 $('#status-card-detail-modal').prop('checked', false);
                 $('#status-card-detail-modal').attr('name', '');
+                console.log('check dates');
+                if (daysdifference(response.card.dates) < 0) {
+                  // overdue
+                  $('#dates-card-detail-modal').attr('name', 'overdue-card-' + response.card._id);
+                  $("label[name='overdue-card-" + response.card._id + "']").append('<span class="overdue">overdue</span>');
+                } else {
+                  $('#dates-card-detail-modal').attr('name', 'overdue-card-' + response.card._id);
+                  $("label[name='overdue-card-" + response.card._id + "']").append('<span class="duesoon">due soon</span>');
+                };
               }
             } else {
               $('#due-to-card-form').attr('style', 'display: none');

@@ -320,7 +320,7 @@
     font-size: 12px;
   }
 
-  .notification_dd li.success .notify_status p {
+  .notification_dd li.duesoon .notify_status p {
 
 
     color: #f3f3f3;
@@ -328,7 +328,7 @@
     padding: 0 5px;
   }
 
-  .notification_dd li.failed .notify_status p {
+  .notification_dd li.overdue .notify_status p {
     color: #000000;
     background: #fff700;
     padding: 0 5px;
@@ -372,7 +372,7 @@
   }
 
   .navbar .profile .profile_dd:before {
-    rigth: 10px;
+    right: 10px;
   }
 
   .navbar .profile .profile_dd ul li {
