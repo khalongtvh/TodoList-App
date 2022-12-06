@@ -6,6 +6,7 @@ use App\Http\Resources\TaskResource;
 use App\Models\Card;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Session;
 
 class TaskController extends Controller
 {
@@ -16,8 +17,12 @@ class TaskController extends Controller
    */
   public function index()
   {
-    $tasks = Task::all();
-    return view('tasks.index', compact('tasks'));;
+    if (Session::has('user') != null) {
+      $tasks = Task::all();
+      return view('tasks.index', compact('tasks'));
+    } else {
+      return redirect()->route('login');
+    }
   }
   public function fetch_tasks()
   {

@@ -390,6 +390,7 @@
           dataType: "json",
           success: function(response) {
             var tasks = response.data;
+            console.log(response.user);
             // tasks.html('');
             $('.taskslist').html('');
             $.each(tasks, function(key, task) {

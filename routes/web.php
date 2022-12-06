@@ -27,13 +27,10 @@ use App\Models\Author;
 // Route::get('/', [AuthorController::class, 'index'])->name('home');
 
 // root
-// Route::get('/', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
   Route::get('home', [HomeController::class, 'index'])->name('home');
-
-  // Route::resource('authors', AuthorController::class);
-  // Route::resource('books', BookController::class);
 });
 Route::resource('cards', CardController::class);
 // /fetch-task
@@ -49,8 +46,8 @@ Route::get('/ajax-search-task', [TaskController::class, 'ajax_search'])->name('t
 
 Route::resource('customers', CustomerController::class);
 
-Route::get('/login', [CustomerController::class, 'index']);
-Route::get('/', [CustomerController::class, 'index']);
+Route::get('/login', [CustomerController::class, 'index'])->name('login');
+Route::get('/logout', [CustomerController::class, 'logout'])->name('logout');
 Route::get('/register', [CustomerController::class, 'register']);
 Route::post('/', [CustomerController::class, 'login']);
 

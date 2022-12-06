@@ -78,7 +78,7 @@
           <ul class="profile_ul">
             <li><a class="profile" href="#"><span class="picon"><i class="fas fa-user-alt"></i></span>address</a></li>
             <li><a class="settings" href="#"><span class="picon"><i class="fas fa-cog"></i></span>Settings</a></li>
-            <li><a class="logout" href="{{url('/login')}}"><span class="picon"><i class="fas fa-sign-out-alt"></i></span>Logout</a></li>
+            <li><a class="logout" href="{{route('logout')}}"><span class="picon"><i class="fas fa-sign-out-alt"></i></span>Logout</a></li>
           </ul>
         </div>
       </div>
