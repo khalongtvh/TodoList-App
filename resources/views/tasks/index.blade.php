@@ -444,14 +444,46 @@
                               <span id="title-card-' + card._id + '" class="titleCard_' + card._id + '">' + card.title + '</span>\
                                 <p style="margin-bottom:0">\
                                   <lable id="dates_card_' + card._id + '" style="display:none" class="btn btn-danger"></lable>\
+                                  <lable style="margin-right:10px; margin-left:10px" id="description_card_' + card._id + '"></lable>\
+                                  <lable id="count_checklist_card_' + card._id + '"></lable>\
                                   <lable id="checklist_card" style="display:none"></lable>\
                                 </p>\
                             </button>\
               ');
-        // console.log('1');
+        status_description(card);
+        status_checklist(card);
         status_date(card);
       }
 
+      function status_checklist(card) {
+        // console.log(card.title);
+        $.ajax({
+          type: "GET",
+          url: "/checklist",
+          dataType: "json",
+          data: {
+            'card_id': card._id
+          },
+          success: function(response) {
+            count = response.countChecklist;
+            checklist_complete = 0;
+            if (count > 0) {
+              $.each(response.data, function(key, checklist) {
+                if (checklist.status == 'true')
+                  checklist_complete = checklist_complete + 1;
+                $('lable#count_checklist_card_' + card._id).html('');
+              });
+              $('lable#count_checklist_card_' + card._id).append('<span><i class="fa-solid fa-square-check"></i>' + '<span id="checklist_complete">' + checklist_complete + '</span>' + '/' + count + '</span>');
+            }
+          }
+        });
+      }
+
+      function status_description(card) {
+        if (card.description != null && card.description != '') {
+          $('lable#description_card_' + card._id).append('<i class="fa-sharp fa-solid fa-bars"></i>');
+        }
+      }
       // remove task remove-task
       $(document).on('click', '#remove-task', function() {
         var id = ($(this).val());
@@ -464,8 +496,6 @@
           dataType: "json",
           url: 'tasks/' + id,
           success: function(response) {
-            // console.log("update status checklist " + response.data.title + " " + response.data.status);
-            // fetch_checklist(response.data.card_id);
             fetchTasks();
           }
         });
@@ -488,9 +518,9 @@
             $('.icon-checklist').html("");
             if (response.data != '') {
               group.append('<p type="text" class="form-control font-title font-16">Checklist</p>');
-              $('.icon-checklist').append('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
+              $('.icon-checklist').append('<i class="fa-solid fa-square-check"></i>');
               response.data.forEach(element => {
-                console.log(element._id);
+                // console.log(element._id);
                 // group.append('<p type="text" class="form-control" style="border:none; padding-left: 0;">' + element.title + '</p>');
                 group.append('  <div class="form-row align-items-center">\
                                 <div class="col-auto my-1">\
@@ -535,6 +565,7 @@
             success: function(response) {
               // console.log("update status checklist " + response.data.title + " " + response.data.status);
               fetch_checklist(response.data.card_id);
+              fetchTasks();
             }
           });
       });
@@ -572,6 +603,7 @@
             console.log(response.data);
             var id_card = response.data.card_id;
             fetch_checklist(id_card);
+            fetchTasks();
           },
         })
       });
@@ -594,6 +626,7 @@
             console.log(response.checklist);
             $('.checklistModal').modal('hide');
             fetch_checklist(id_card);
+            fetchTasks();
           },
         })
       });
@@ -634,9 +667,11 @@
             'task_id': task_id
           },
           success: function(response) {
+            // console.log('description: ' + response.card.description);
             $('#title_card').val(response.card.title);
             $('#description_card').val(response.card.description);
             $('#title-task-in-modal-detail').text(response.card.task.title);
+            // $('.notification_ul').html('');
             status_date(response.card);
             if (response.card.dates != 0) {
               $('#dates_card_' + response.card._id).removeAttr('style');
@@ -724,6 +759,7 @@
           success: function(response) {
             // console.log(response.data.status);
             fecth_card(idCard_Hidden);
+            fetchTasks();
           }
         });
       });

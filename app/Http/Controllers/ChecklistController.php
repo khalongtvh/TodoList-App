@@ -21,6 +21,7 @@ class ChecklistController extends Controller
     return response()->json([
       'status' => 'success',
       'data' => $checklist,
+      'countChecklist' => count($checklist),
     ]);
   }
 
