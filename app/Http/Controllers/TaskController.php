@@ -17,7 +17,7 @@ class TaskController extends Controller
    */
   public function index()
   {
-    if (Session::has('user') != null) {
+    if (Session::has('user_email') == true) {
       $tasks = Task::all();
       return view('tasks.index', compact('tasks'));
     } else {
@@ -27,7 +27,7 @@ class TaskController extends Controller
   public function fetch_tasks()
   {
     $tasks = Task::with('cards')->get();
-    return response()->json(['data' => $tasks]);
+    return response()->json(['data' => $tasks, 'user' => Session::has('user_email')]);
   }
   /**
    * Show the form for creating a new resource.

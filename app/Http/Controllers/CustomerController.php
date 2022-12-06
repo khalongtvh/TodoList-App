@@ -109,7 +109,6 @@ class CustomerController extends Controller
 
   public function login(Request $request)
   {
-
     $this->validate($request, [
       'email' => 'required|email|max:255',
       'password' => 'required|max:255',
@@ -120,13 +119,14 @@ class CustomerController extends Controller
       session()->flash('danger', 'Incorrect account or password.');
       return redirect()->back();
     } else {
+      Session::put('user_email', $email);
       return view('tasks.index');
     }
   }
 
   public function logout()
   {
-    Session::put('user', null);
+    Session::put('user_email', null);
     return redirect()->route('home');
   }
 }
