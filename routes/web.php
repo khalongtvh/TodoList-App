@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\BookController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\CustomerController;

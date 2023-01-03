@@ -49,7 +49,7 @@ return [
       'options' => [
         'database' => env('DB_AUTHENTICATION_DATABASE', 'admin')
         // 'appname' => 'homestead',
-      ],
+      ], 
     ],
     'sqlite' => [
       'driver' => 'sqlite',
